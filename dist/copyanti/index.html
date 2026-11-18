@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocina una vez y deja listo el menú de la semana — Método Congelador Inteligente</title>
+  <meta name="description" content="Más de 100 recetas caseras diseñadas para congelar en raciones y tener la comida lista sin empezar de cero. Planifica tu menú semanal sin esfuerzo.">
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preload hero image for fast LCP -->
+  <link rel="preload" as="image" href="/img/banner-congelado.webp" type="image/webp">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cocina una vez y deja listo el menú de la semana">
+  <meta property="og:description" content="Más de 100 recetas caseras diseñadas para congelar en raciones y tener la comida lista sin empezar de cero.">
+  <meta property="og:image" content="/img/banner-congelado.webp">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <!-- Script -->
+  <script src="/page.js" defer></script>
+</head>
+<body class="bg-cream text-ink font-sans antialiased selection:bg-terracotta selection:text-cream">
+
+  <!-- ======================================================== -->
+  <!-- 1. ANNOUNCEMENT TICKER (FIXED TOP - HECHOS REALES Y VERIFICABLES) -->
+  <!-- ======================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-ink text-cream border-b border-ink/40 overflow-hidden ticker-container">
+    <div class="flex whitespace-nowrap ticker py-2 text-[11px] md:text-xs uppercase tracking-[0.25em] font-medium" id="ticker-track">
+      <span class="flex items-center px-6"><span class="text-terracotta mr-6">✦</span>Pago único · Sin suscripciones</span>
+      <span class="flex items-center px-6"><span class="text-terracotta mr-6">✦</span>Acceso digital de por vida</span>
+      <span class="flex items-center px-6"><span class="text-terracotta mr-6">✦</span>Más de 100 recetas con tabla nutricional</span>
+      <span class="flex items-center px-6"><span class="text-terracotta mr-6">✦</span>Garantía incondicional de 30 días</span>
+      <span class="flex items-center px-6"><span class="text-terracotta mr-6">✦</span>Entrega inmediata por email</span>
+      <!-- Loop repeat for smooth infinite scroll -->
+      <span class="flex items-center px-6" aria-hidden="true"><span class="text-terracotta mr-6">✦</span>Pago único · Sin suscripciones</span>
+      <span class="flex items-center px-6" aria-hidden="true"><span class="text-terracotta mr-6">✦</span>Acceso digital de por vida</span>
+      <span class="flex items-center px-6" aria-hidden="true"><span class="text-terracotta mr-6">✦</span>Más de 100 recetas con tabla nutricional</span>
+      <span class="flex items-center px-6" aria-hidden="true"><span class="text-terracotta mr-6">✦</span>Garantía incondicional de 30 días</span>
+      <span class="flex items-center px-6" aria-hidden="true"><span class="text-terracotta mr-6">✦</span>Entrega inmediata por email</span>
+    </div>
+  </header>
+
+  <main class="pt-8">
+    <!-- ======================================================== -->
+    <!-- 2. HERO SECTION -->
+    <!-- ======================================================== -->
+    <section class="relative pt-8 md:pt-16 pb-16 bg-cream grain overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          <!-- Column Left: Text & CTA -->
+          <div class="lg:col-span-7 relative text-center lg:text-left">
+            <h1 class="mt-[20px] font-display font-light text-ink leading-[0.98] text-[clamp(2.7rem,6.5vw,6.5rem)]">
+              Cocina una vez <span class="italic font-normal">y deja listo el</span> <span class="text-terracotta">menú de</span><br>
+              <span class="underline-wavy">la semana.</span>
+            </h1>
+
+            <p class="mt-8 md:mt-10 max-w-xl mx-auto lg:mx-0 text-base md:text-xl text-ink/75 leading-relaxed font-light">
+              Más de 100 recetas caseras diseñadas para congelar en raciones y tener la comida lista sin empezar de cero.
+            </p>
+
+            <!-- Mobile Banner Image (Visible on small screens) -->
+            <div class="mt-5 relative aspect-[4/3] max-w-sm mx-auto lg:hidden">
+              <div class="absolute inset-0 bg-sage/20 translate-x-3 translate-y-3"></div>
+              <img src="/img/banner-congelado.webp" alt="Cocina una vez y deja listo el menú de la semana" class="relative w-full h-full object-cover" width="1440" height="1080" fetchpriority="high" decoding="async">
+              <div class="absolute -top-4 -right-3 w-20 h-20 bg-terracotta text-cream rounded-full flex items-center justify-center text-center rotate-tape shadow-xl">
+                <div>
+                  <div class="font-display italic text-xs">nuevo</div>
+                  <div class="font-display text-xl leading-none">100+</div>
+                  <div class="text-[9px] uppercase tracking-[0.2em] mt-1">recetas</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Button & Price Display -->
+            <div class="mt-6 md:mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6">
+              <a href="#ofertas" class="shimmer group inline-flex items-center bg-forest text-cream px-8 py-4 hover:bg-terracotta transition-colors duration-300">
+                <span class="text-sm uppercase tracking-[0.25em] font-medium mr-3">Quiero mis recetas</span>
+                <span class="text-lg group-hover:translate-x-1 transition-transform">→</span>
+              </a>
+              <div class="flex items-baseline gap-2">
+                <span class="text-ink/50 line-through text-sm" data-price-hero-old>$27</span>
+                <span class="font-display text-3xl text-ink" data-price-hero-current>$9.90</span>
+                <span class="text-xs text-ink/60 italic">pago único</span>
+              </div>
+            </div>
+
+            <!-- Descriptive paragraph -->
+            <p class="mt-8 text-sm md:text-base text-ink/70 leading-relaxed max-w-lg mx-auto lg:mx-0">
+              Elige tus platos favoritos, prepáralos el fin de semana y congélalos por separado. Entre semana, solo calienta y come.
+            </p>
+
+            <!-- Trust badges -->
+            <div class="mt-8 pt-8 border-t border-ink/15 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs uppercase tracking-[0.2em] text-ink/60">
+              <span class="flex items-center gap-2"><span class="text-forest">♢</span> Compra segura</span>
+              <span class="flex items-center gap-2"><span class="text-forest">♧</span> Garantía de 30 días</span>
+              <span class="flex items-center gap-2"><span class="text-forest">∞</span> Acceso de por vida</span>
+            </div>
+          </div>
+
+          <!-- Column Right: Desktop Banner Image -->
+          <div class="hidden lg:block lg:col-span-5">
+            <div class="relative aspect-[4/3] max-w-md mx-auto">
+              <div class="absolute inset-0 bg-sage/20 translate-x-4 translate-y-4"></div>
+              <img src="/img/banner-congelado.webp" alt="Recetas para congelar y organizar tu menú" class="relative w-full h-full object-cover" width="1440" height="1080" fetchpriority="high" decoding="async">
+              <div class="absolute -top-6 -right-6 md:-right-10 w-28 h-28 md:w-32 md:h-32 bg-terracotta text-cream rounded-full flex items-center justify-center text-center rotate-tape shadow-xl">
+                <div>
+                  <div class="font-display italic text-xs">nuevo</div>
+                  <div class="font-display text-2xl leading-none">100+</div>
+                  <div class="text-[9px] uppercase tracking-[0.2em] mt-1">recetas</div>
+                </div>
+              </div>
+              <p class="absolute -bottom-10 left-0 text-[11px] uppercase tracking-[0.25em] text-ink/55">Fig. 01 — Método completo</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 3. PROBLEMA REAL: LA RUTINA DIARIA -->
+    <!-- ======================================================== -->
+    <section class="py-16 md:py-24 px-6 md:px-10 bg-secondary grain border-t border-ink/15">
+      <div class="max-w-4xl mx-auto text-center md:text-left">
+        <span class="text-[11px] uppercase tracking-[0.3em] text-terracotta font-medium mb-3 block">El problema diario</span>
+        <h2 class="font-display font-light text-ink leading-[1.05] text-[clamp(2.2rem,5vw,3.8rem)] mb-8">
+          Llegas a casa, abres la nevera… <span class="italic text-terracotta">y nada.</span>
+        </h2>
+        <div class="space-y-6 text-ink/80 text-lg md:text-xl font-light leading-relaxed max-w-3xl">
+          <p>
+            Estás cansada. No quieres cocinar. Terminas pidiendo algo a domicilio, picando lo primero que encuentras o comiendo cualquier cosa que no te alimenta de verdad.
+          </p>
+          <p class="border-l-2 border-terracotta pl-4 italic text-ink/90 font-normal">
+            Al día siguiente, exactamente lo mismo.
+          </p>
+          <p>
+            No es falta de voluntad ni pereza. <strong>Es falta de un sistema</strong> que deje la comida hecha antes de que la necesites.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 4. SOLUCIÓN: CÓMO FUNCIONA EL MÉTODO EN 3 PASOS -->
+    <!-- ======================================================== -->
+    <section class="py-16 md:py-24 px-6 md:px-10 bg-cream grain border-t border-ink/15">
+      <div class="max-w-7xl mx-auto">
+        <div class="max-w-3xl mb-12 md:mb-16 text-center md:text-left">
+          <span class="text-[11px] uppercase tracking-[0.3em] text-terracotta font-medium mb-3 block">El método paso a paso</span>
+          <h2 class="font-display font-light text-ink leading-[1.02] text-[clamp(2.2rem,5.5vw,4.2rem)]">
+            Un domingo. Unas horas. <span class="italic">Toda la semana resuelta.</span>
+          </h2>
+          <p class="mt-4 text-ink/75 text-lg font-light leading-relaxed">
+            Olvídate de pensar qué cocinar cada noche. Con este sistema organizado de porciones, tu congelador trabaja a tu favor.
+          </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-card border border-ink/15 p-8 relative">
+            <span class="font-display italic text-terracotta text-3xl">01</span>
+            <h3 class="font-display text-2xl text-ink mt-3 mb-3">Elige tus recetas</h3>
+            <p class="text-ink/70 leading-relaxed text-sm">
+              Abre el libro y escoge los platos que más te apetezcan. Carnes, pescados, guarniciones, meriendas o postres: tú decides el menú semanal a tu gusto.
+            </p>
+          </div>
+          <div class="bg-card border border-ink/15 p-8 relative">
+            <span class="font-display italic text-terracotta text-3xl">02</span>
+            <h3 class="font-display text-2xl text-ink mt-3 mb-3">Cocina y congela</h3>
+            <p class="text-ink/70 leading-relaxed text-sm">
+              Prepara varias raciones de cada plato en una sola sesión y congélalas por separado. Cada receta indica el recipiente ideal y el tiempo exacto de conservación.
+            </p>
+          </div>
+          <div class="bg-card border border-ink/15 p-8 relative">
+            <span class="font-display italic text-terracotta text-3xl">03</span>
+            <h3 class="font-display text-2xl text-ink mt-3 mb-3">Calienta y come</h3>
+            <p class="text-ink/70 leading-relaxed text-sm">
+              Entre semana, saca del congelador lo que quieras. En pocos minutos tendrás comida casera caliente con textura y sabor de recién hecha, sin cocinar desde cero.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 5. FEATURE PRESENTATION SECTION (FOREST GREEN) -->
+    <!-- ======================================================== -->
+    <section class="py-24 px-6 md:px-10 bg-forest text-cream grain relative overflow-hidden">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-12 gap-12 items-start">
+          
+          <div class="lg:col-span-5 relative">
+            <div class="relative aspect-[4/5] max-w-md mx-auto">
+              <div class="absolute inset-0 bg-terracotta/40 -translate-x-3 -translate-y-3"></div>
+              <img src="/img/PETIT-GATEAU-1.webp" alt="Platos preparados del método" class="relative w-full h-full object-cover shadow-2xl" loading="lazy" width="501" height="540" decoding="async">
+            </div>
+          </div>
+
+          <div class="lg:col-span-7">
+            <h2 class="font-display font-light text-cream leading-[1.02] text-[clamp(2.5rem,6vw,5rem)]">
+              Congelar tus platos no es renunciar al <span class="italic text-ochre">sabor.</span>
+            </h2>
+            <p class="mt-6 text-cream/75 text-lg leading-relaxed font-light max-w-xl">
+              Con las técnicas adecuadas, tu comida sale del congelador con la frescura, jugosidad y textura de estar recién hecha. Podrás preparar:
+            </p>
+            <ul class="mt-10 space-y-0 max-w-2xl">
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15">
+                <span class="font-display italic text-ochre text-sm shrink-0">01</span>
+                <span class="text-cream/90 leading-snug">Pollo a la plancha con limón — tierno y jugoso incluso después de congelarlo</span>
+              </li>
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15">
+                <span class="font-display italic text-ochre text-sm shrink-0">02</span>
+                <span class="text-cream/90 leading-snug">Meriendas y postres fit ya repartidos en porciones individuales listas</span>
+              </li>
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15">
+                <span class="font-display italic text-ochre text-sm shrink-0">03</span>
+                <span class="text-cream/90 leading-snug">Pescado con salsa de finas hierbas, rico en omega-3 y muy ligero</span>
+              </li>
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15">
+                <span class="font-display italic text-ochre text-sm shrink-0">04</span>
+                <span class="text-cream/90 leading-snug">Carne picada sazonada — la base versátil para decenas de recetas rápidas</span>
+              </li>
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15">
+                <span class="font-display italic text-ochre text-sm shrink-0">05</span>
+                <span class="text-cream/90 leading-snug">Guarniciones nutritivas que conservan su textura crujiente y color vivo</span>
+              </li>
+              <li class="flex items-baseline gap-6 py-5 border-t border-cream/15 last:border-b">
+                <span class="font-display italic text-ochre text-sm shrink-0">06</span>
+                <span class="text-cream/90 leading-snug">Sopas y cremas completas y reconfortantes para los días con más ajetreo</span>
+              </li>
+            </ul>
+            <a href="#ofertas" class="group mt-10 inline-flex items-center bg-cream text-ink px-8 py-4 hover:bg-ochre transition-colors duration-300">
+              <span class="text-sm uppercase tracking-[0.25em] font-medium mr-3">Quiero mis recetas</span>
+              <span class="text-lg group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 6. CHAPTERS & 12 RECIPES GALLERY -->
+    <!-- ======================================================== -->
+    <section class="py-24 px-6 md:px-10 bg-cream grain border-t border-ink/15">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-12 gap-10 mb-16 items-end">
+          <h2 class="md:col-span-6 font-display font-light text-ink leading-[1.02] text-[clamp(2.2rem,5vw,4.5rem)]">
+            Más de 100 recetas organizadas para <span class="italic">montar tus propios menús.</span>
+          </h2>
+          <p class="md:col-span-6 md:col-start-7 text-ink/70 text-lg leading-relaxed font-light">
+            Combina carnes, pescados, guarniciones, meriendas, salsas y postres. Cada receta incluye calorías, macronutrientes y etiquetas de sin gluten o sin lactosa claramente identificadas.
+          </p>
+        </div>
+
+        <!-- 6 Chapter Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-ink/15 mb-24">
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. I</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Carnes y Aves</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Alto en proteínas</p>
+          </div>
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. II</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Pescados y Mariscos</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Bajo en calorías</p>
+          </div>
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. III</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Guarniciones</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Nutritivas</p>
+          </div>
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. IV</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Meriendas y Snacks</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Prácticos</p>
+          </div>
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. V</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Condimentos y Salsas</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Versátiles</p>
+          </div>
+          <div class="group border-r border-b border-ink/15 p-8 hover:bg-ink hover:text-cream transition-colors duration-300">
+            <div class="font-display italic text-terracotta group-hover:text-ochre text-sm mb-6">Cap. VI</div>
+            <h3 class="font-display text-3xl mb-2 leading-tight">Postres Saludables</h3>
+            <p class="text-sm uppercase tracking-[0.2em] opacity-60">Sin culpa</p>
+          </div>
+        </div>
+
+        <!-- Gallery of 12 Recipes -->
+        <div class="border-t border-ink/15 pt-16">
+          <div class="flex items-end justify-between mb-10">
+            <h3 class="font-display font-light text-ink text-3xl md:text-4xl max-w-xl leading-tight">
+              Así de bien se ven las recetas del libro.
+            </h3>
+            <span class="hidden md:block text-[11px] uppercase tracking-[0.3em] text-ink/55">Galería · 12 recetas destacadas</span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar.webp" alt="Receta destacada 1" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-11.webp" alt="Receta destacada 2" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-10.webp" alt="Receta destacada 3" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-09.webp" alt="Receta destacada 4" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-08.webp" alt="Receta destacada 5" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-07.webp" alt="Receta destacada 6" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-06.webp" alt="Receta destacada 7" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-05.webp" alt="Receta destacada 8" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-04.webp" alt="Receta destacada 9" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-03.webp" alt="Receta destacada 10" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-02.webp" alt="Receta destacada 11" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+            <figure class="relative overflow-hidden bg-secondary">
+              <img src="/img/receitas-saudaveis-para-congelar-01.webp" alt="Receta destacada 12" class="w-full h-full object-cover aspect-[4/5] hover:scale-105 transition-transform duration-700 ease-out" loading="lazy" width="501" height="540" decoding="async">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 7. PROVA SOCIAL (TESTIMONIALS ANTES DA OFERTA) -->
+    <!-- ======================================================== -->
+    <section class="py-24 px-6 md:px-10 bg-secondary grain border-t border-ink/15">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-[11px] uppercase tracking-[0.3em] text-terracotta font-medium mb-3 block">Experiencias reales</span>
+          <h2 class="font-display font-light text-ink leading-[1.02] text-[clamp(2.5rem,6vw,4.5rem)]">
+            Lo que dicen quienes ya cocinan con <span class="italic">el método.</span>
+          </h2>
+          <p class="mt-4 text-ink/70 text-base md:text-lg font-light">
+            Resultados comprobados de personas que transformaron su rutina en la cocina.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-ink/15">
+          
+          <!-- Testimonial 1 (Madrid, España) -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-1239291.jpg" alt="Carolina Méndez" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Carolina Méndez</div>
+                <div class="text-xs text-ink/55">Madrid, España</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Al descongelarlo sabe a recién hecho.</strong> Preparé el pollo al limón, lo congelé en raciones individuales y me sirvió para toda la semana. Nada seco, jugoso y delicioso.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+          <!-- Testimonial 2 (Barcelona, España) -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-762020.jpg" alt="Laura Gómez" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Laura Gómez</div>
+                <div class="text-xs text-ink/55">Barcelona, España</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Llego cansada del trabajo y la cena ya está lista.</strong> Me cambió la rutina por completo. Dejo todo cocinado y congelado en un par de horas el domingo y entre semana tengo cero estrés.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+          <!-- Testimonial 3 (Valencia, España) -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-1065084.jpg" alt="Javier Serrano" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Javier Serrano</div>
+                <div class="text-xs text-ink/55">Valencia, España</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Ahorré más de 120€ en comida este mes.</strong> Nunca más tiré ingredientes ni verduras que se echan a perder en la nevera. La organización por raciones es una maravilla.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+          <!-- Testimonial 4 (Sevilla, España) -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-1181686.jpg" alt="Mariana Costa" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Mariana Costa</div>
+                <div class="text-xs text-ink/55">Sevilla, España</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Pensé que sería complicado porque apenas sabía cocinar, pero es facilísimo.</strong> Las instrucciones son súper claras, con ingredientes que compras en cualquier supermercado normal.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+          <!-- Testimonial 5 -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-1181424.jpg" alt="Paula Santoro" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Paula Santoro</div>
+                <div class="text-xs text-ink/55">Ciudad de México</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Tengo intolerancia a la lactosa y me facilitó la vida cotidiana.</strong> Encontrar las recetas perfectamente señalizadas con sus macronutrientes calculados me ahorró muchísimo tiempo.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+          <!-- Testimonial 6 -->
+          <figure class="relative bg-cream p-6 flex flex-col overflow-hidden">
+            <figcaption class="relative flex items-center gap-3 mb-4">
+              <img src="/img/pexels-photo-1181690.jpg" alt="Beatriz Navarro" loading="lazy" class="w-11 h-11 object-cover rounded-full">
+              <div>
+                <div class="text-[15px] font-semibold text-ink leading-tight">Beatriz Navarro</div>
+                <div class="text-xs text-ink/55">Miami, Estados Unidos</div>
+                <div class="mt-0.5 flex items-center gap-1 text-[11px] text-forest">
+                  <span>✓</span> Compra verificada
+                </div>
+              </div>
+            </figcaption>
+            <blockquote class="text-sm text-ink/75 leading-relaxed italic flex-1">
+              «<strong>Bajé 4 kg en un mes comiendo los platos del libro sin pasar hambre.</strong> Es comida de verdad, nutritiva, práctica y súper sabrosa.»
+            </blockquote>
+            <div class="mt-4 flex items-center gap-0.5 text-ochre">★★★★★</div>
+          </figure>
+
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="#ofertas" class="shimmer inline-flex items-center bg-forest text-cream px-8 py-4 hover:bg-terracotta transition-colors duration-300 text-sm uppercase tracking-[0.25em] font-medium">
+            <span>Quiero mis recetas</span>
+            <span class="ml-3">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 8. PRICING & OFFERS SECTION (#ofertas) -->
+    <!-- ======================================================== -->
+    <section id="ofertas" class="py-24 px-6 md:px-10 bg-cream grain border-t border-ink/15">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-10 max-w-2xl mx-auto">
+          <h2 class="font-display font-light text-ink leading-[1.02] text-[clamp(2.5rem,6vw,5rem)]">
+            Elige tu <span class="italic">edición.</span>
+          </h2>
+          <p class="mt-4 text-ink/70 text-lg font-light">
+            Pago único, acceso digital de por vida y garantía incondicional de 30 días.
+          </p>
+        </div>
+
+        <!-- Structural Urgency Note (Honest, Real) -->
+        <div class="bg-forest/10 border border-forest/30 text-forest p-4 rounded text-center text-xs md:text-sm font-medium mb-12 max-w-2xl mx-auto">
+          ✦ La Edición Completa incluye los menús semanales listos y el plan de raciones optimizado para congelar. Acceso inmediato hoy con precio especial.
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-ink/20 border border-ink/20 mt-4 max-w-5xl mx-auto">
+          
+          <!-- Plan 1: Edición Esencial -->
+          <article class="relative p-6 sm:p-8 md:p-12 flex flex-col transition-transform duration-300 bg-cream text-ink">
+            <span class="text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.3em] mb-2 text-terracotta font-medium">Edición Esencial</span>
+            <h3 class="font-display text-2xl sm:text-3xl md:text-4xl leading-tight mb-2">Edición Esencial</h3>
+            <p class="text-xs md:text-sm text-ink/65 mb-6 md:mb-8 font-light">El recetario completo y la guía para elegir recipientes y conservar tus platos.</p>
+            
+            <ul class="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">+100 recetas saludables para congelar</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">Tabla de calorías y macros calculados</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">Guía de recipientes y técnicas de conservación</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">Recetas sin gluten y sin lactosa identificadas</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">Soporte + garantía de 30 días</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-terracotta">—</span><span class="text-ink/80">Acceso digital de por vida</span></li>
+            </ul>
+
+            <div class="text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.3em] mb-3 text-ink/40">Complementos no incluidos</div>
+            <ul class="space-y-2.5 md:space-y-3 mb-6 md:mb-8 opacity-50">
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ink/40">×</span><span class="line-through text-ink/60">Menús semanales listos para usar</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ink/40">×</span><span class="line-through text-ink/60">Plan de raciones inteligentes (+30 días)</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ink/40">×</span><span class="line-through text-ink/60">Guía de organización del congelador</span></li>
+            </ul>
+
+            <div class="mt-auto pt-6 md:pt-8 border-t border-ink/20">
+              <div class="flex flex-wrap items-baseline justify-center gap-x-2 md:gap-x-3 gap-y-1 mb-5 md:mb-6 text-center">
+                <span class="line-through text-sm md:text-base text-ink/40" data-price-basic-old>$27</span>
+                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-ink" data-price-basic-current>$9.90</span>
+                <span class="text-[10px] md:text-xs italic text-ink/60">pago único</span>
+              </div>
+              <a href="https://pay.cakto.com.br/qnjh4wc" class="checkout-btn group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-forest text-cream hover:bg-terracotta transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase" data-plan="basic">
+                <span>Elegir Esencial</span>
+                <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              </a>
+              <div class="mt-4 text-center text-[11px] uppercase tracking-[0.2em] text-ink/55">Compra segura · Garantía de 30 días</div>
+            </div>
+          </article>
+
+          <!-- Plan 2: Edición Completa (Recomendado) -->
+          <article class="relative p-6 sm:p-8 md:p-12 flex flex-col transition-transform duration-300 bg-forest text-cream ring-2 ring-ochre shadow-2xl z-[1] md:scale-[1.02]">
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-[9px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] bg-terracotta text-cream px-3 py-1 whitespace-nowrap shadow-md">Más elegido</span>
+            <span class="text-[10px] md:text-[11px] uppercase tracking-[0.25em] md:tracking-[0.3em] mb-2 text-ochre font-medium">Edición Completa</span>
+            <h3 class="font-display text-2xl sm:text-3xl md:text-4xl leading-tight mb-2">Edición Completa</h3>
+            <p class="text-xs md:text-sm text-cream/70 mb-6 md:mb-8 font-light">Todo lo de la Esencial, más menús semanales listos, plan de raciones y guía de organización.</p>
+            
+            <ul class="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">—</span><span class="text-cream/90">Todo lo incluido en la Edición Esencial</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">✦</span><span class="text-cream/90"><strong>Menús semanales listos para usar</strong> (4 semanas equilibradas)</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">✦</span><span class="text-cream/90"><strong>Plan de raciones inteligentes</strong> (+30 días organizados)</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">✦</span><span class="text-cream/90"><strong>Guía de organización del congelador</strong> (sin escarcha)</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">✦</span><span class="text-cream/90">Actualizaciones de por vida del contenido</span></li>
+              <li class="flex gap-2 md:gap-3 text-[13px] md:text-[15px] leading-snug"><span class="text-ochre">✦</span><span class="text-cream/90">Soporte prioritario + garantía incondicional de 30 días</span></li>
+            </ul>
+
+            <div class="mt-auto pt-6 md:pt-8 border-t border-cream/20">
+              <div class="flex flex-wrap items-baseline justify-center gap-x-2 md:gap-x-3 gap-y-1 mb-5 md:mb-6 text-center">
+                <span class="line-through text-sm md:text-base text-cream/40" data-price-premium-old>$47</span>
+                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-cream" data-price-premium-current>$19.90</span>
+                <span class="text-[10px] md:text-xs italic text-cream/60">pago único</span>
+              </div>
+              <a href="https://pay.cakto.com.br/oaeedp7" class="checkout-btn shimmer group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-cream text-ink hover:bg-ochre transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase shadow-lg" data-plan="premium">
+                <span>Elegir Completa</span>
+                <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              </a>
+              <div class="mt-4 text-center text-[11px] uppercase tracking-[0.2em] text-cream/70">Compra segura · Garantía de 30 días</div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 9. SECCIÓN DE GARANTÍA DESTACADA -->
+    <!-- ======================================================== -->
+    <section class="py-20 px-6 md:px-10 bg-secondary grain border-t border-ink/15">
+      <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
+        <div class="shrink-0">
+          <div class="border-2 border-dashed border-forest rounded-full w-36 h-36 flex flex-col items-center justify-center text-center text-forest shadow-md bg-cream">
+            <span class="text-[9px] uppercase tracking-[0.2em] font-medium leading-none mb-1">Garantía total</span>
+            <span class="font-display text-5xl leading-none font-normal my-0.5">30</span>
+            <span class="text-[9px] uppercase tracking-[0.2em] font-medium leading-none">días</span>
+          </div>
+        </div>
+        <div class="text-center md:text-left">
+          <h2 class="font-display font-light text-ink leading-tight text-3xl md:text-4xl mb-4">
+            Prueba el método 30 días. <span class="italic">Si no te convence, te devolvemos el dinero.</span>
+          </h2>
+          <p class="text-ink/75 leading-relaxed text-base md:text-lg font-light mb-4">
+            No tienes que decidir ahora si esto es para ti. Tienes 30 días completos para abrir el recetario, preparar tus primeros platos, congelarlos y comprobar por ti misma si el método encaja en tu rutina.
+          </p>
+          <p class="text-ink/80 leading-relaxed text-sm md:text-base font-normal">
+            Si por cualquier motivo sientes que no es lo que esperabas, solo envíanos un email o mensaje y te reembolsamos el 100% de tu dinero de inmediato. Sin preguntas ni complicaciones.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 10. FAQ ACCORDION -->
+    <!-- ======================================================== -->
+    <section class="py-24 px-6 md:px-10 bg-cream grain border-t border-ink/15">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="mb-12 font-display font-light text-ink leading-[1.02] text-[clamp(2.5rem,6vw,5rem)]">
+          Preguntas <span class="italic">frecuentes.</span>
+        </h2>
+        <div class="border-t border-ink/15 divide-y divide-ink/15" id="faq-list">
+          
+          <!-- Q0: España ingredientes (Objeción principal) -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">01</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Puedo usar las recetas con los ingredientes que encuentro en España?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              ¡Totalmente! Todas las recetas están pensadas con ingredientes habituales y accesibles que encuentras en cualquier supermercado habitual (Mercadona, Carrefour, Lidl, Día, etc.). No necesitas ingredientes raros ni productos especiales de importación.
+            </div>
+          </div>
+
+          <!-- Q1 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">02</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Cómo recibo el acceso al libro?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              Tan pronto como se confirma tu pago, recibes las recetas de inmediato por correo electrónico y WhatsApp. Todo es 100% digital, sin esperas ni gastos de envío, para que puedas consultar todo hoy mismo desde tu móvil, tablet o imprimirlo.
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">03</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Necesito saber cocinar para utilizar el método?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              ¡Para nada! Las recetas fueron creadas específicamente para personas que tienen poco tiempo o cero experiencia culinaria. Todo viene explicado con instrucciones paso a paso, claras, sin términos difíciles y listas para aplicar.
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">04</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Las recetas son aptas para dietas especiales?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              ¡Sí! Todas las recetas incluyen tabla nutricional con calorías y macronutrientes. Además, encontrarás secciones y etiquetas específicas para opciones bajas en carbohidratos (low carb), sin gluten y sin lactosa.
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">05</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Se necesita algún equipo o electrodoméstico especial?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              No requieres nada sofisticado. El método funciona con los utensilios y recipientes estándar que ya tienes en casa. La guía de recipientes te enseña cuáles son las mejores opciones y cómo sacarles el máximo provecho.
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">06</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Cuánto tiempo duran los platos en el congelador?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              Cada receta indica su tiempo óptimo de conservación, generalmente entre 30 y 90 días. Con las técnicas de congelación del método, el sabor, la textura y las propiedades nutricionales se preservan intactas.
+            </div>
+          </div>
+
+          <!-- Q6: Garantía clara -->
+          <div class="faq-item">
+            <button type="button" class="faq-question w-full py-6 flex items-baseline justify-between text-left group transition-colors">
+              <span class="flex items-baseline gap-4 md:gap-6 pr-4">
+                <span class="font-display italic text-terracotta text-sm">07</span>
+                <span class="font-display text-xl md:text-2xl text-ink group-hover:text-terracotta transition-colors">¿Y si no me convence (cómo funciona la devolución)?</span>
+              </span>
+              <span class="faq-icon text-2xl font-light text-terracotta shrink-0">+</span>
+            </button>
+            <div class="faq-answer text-ink/75 leading-relaxed pl-8 md:pl-12 pr-4 text-base">
+              Te devolvemos el dinero, así de simple. Cuentas con una garantía incondicional de 30 días. Si por cualquier motivo sientes que el método no es para ti, solo debes enviar un mensaje de WhatsApp o correo dentro del plazo y te reembolsamos el 100% de tu dinero de inmediato, sin preguntas.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 11. FECHAMENTO FINAL ANTES DEL FOOTER -->
+    <!-- ======================================================== -->
+    <section class="py-20 px-6 md:px-10 bg-forest text-cream grain text-center border-t border-ink/20">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="font-display font-light text-cream leading-[1.05] text-[clamp(2.2rem,5vw,3.8rem)] mb-6">
+          Este fin de semana puedes dejar resueltas <span class="italic text-ochre">las comidas de toda la semana.</span>
+        </h2>
+        <p class="text-cream/80 text-lg md:text-xl font-light leading-relaxed mb-8 max-w-2xl mx-auto">
+          Elige tu edición, abre las recetas que más te apetezcan y empieza con lo que ya tengas en casa. Cero complicaciones, comida rica y sana cada día.
+        </p>
+        <a href="#ofertas" class="shimmer inline-flex items-center bg-cream text-ink px-10 py-5 hover:bg-ochre transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase shadow-xl">
+          <span>Quiero mis recetas</span>
+          <span class="ml-3 text-lg">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 12. EDITORIAL FOOTER -->
+  <!-- ======================================================== -->
+  <footer class="bg-ink text-cream pt-20 pb-10 px-6 md:px-10 grain">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-12 gap-10 pb-16 border-b border-cream/15">
+        <div class="md:col-span-6">
+          <h3 class="font-display font-light text-cream leading-[1] text-[clamp(2.5rem,6vw,5rem)]">
+            Recetas<br><span class="italic">saludables</span> <span class="text-ochre">para</span><br>congelar.
+          </h3>
+        </div>
+        <div class="md:col-span-3">
+          <div class="text-[11px] uppercase tracking-[0.3em] text-ochre mb-4">Autora</div>
+          <p class="text-cream/80 leading-relaxed">
+            Maria Maciel<br><span class="text-cream/55 text-sm">Recetas Prácticas · Edición Internacional</span>
+          </p>
+        </div>
+        <div class="md:col-span-3">
+          <div class="text-[11px] uppercase tracking-[0.3em] text-ochre mb-4">Acceso Inmediato</div>
+          <p class="text-cream/80 leading-relaxed text-sm">
+            Entrega digital instantánea por correo electrónico y WhatsApp tras confirmar el pago. Acceso de por vida y garantía incondicional de 30 días.
+          </p>
+        </div>
+      </div>
+      <div class="pt-8 flex flex-col md:flex-row justify-between gap-4 text-[11px] uppercase tracking-[0.25em] text-cream/55">
+        <span>© 2026 — Maria Maciel · Todos los derechos reservados.</span>
+        <span>Edición Internacional en Español</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- 13. MOBILE STICKY CONVERSION BAR (APPEARS ON SCROLL) -->
+  <!-- ======================================================== -->
+  <aside id="sticky-bar" class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-cream/95 backdrop-blur border-t border-ink/15 px-4 py-3 flex items-center justify-between gap-3 transition-transform duration-300 translate-y-full shadow-2xl">
+    <div class="leading-tight">
+      <div class="text-[11px] text-ink/50 line-through" data-sticky-old>$27</div>
+      <div class="font-display text-2xl text-ink" data-sticky-current>$9.90</div>
+    </div>
+    <a href="#ofertas" class="shimmer bg-forest text-cream px-5 py-3 text-xs uppercase tracking-[0.2em] font-medium flex items-center shadow-md">
+      <span>Ver las ediciones</span>
+      <span class="ml-1.5">→</span>
+    </a>
+  </aside>
+
+</body>
+</html>
