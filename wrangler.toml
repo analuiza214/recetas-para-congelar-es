@@ -1,0 +1,7 @@
+name = "recetas-para-congelar-es"
+main = "src/worker.js"
+compatibility_date = "2026-11-18"
+
+[assets]
+directory = "./dist"
+not_found_handling = "none"
