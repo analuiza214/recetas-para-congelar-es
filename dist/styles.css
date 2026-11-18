@@ -55,3 +55,28 @@ body {
   background: linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.4) 50%, transparent 75%);
   animation: shimmerAnim 3.2s ease-in-out infinite;
 }
+
+/* Hero Headline & Layout Enhancements for copyanti */
+.hero-headline {
+  font-size: clamp(3.2rem, 8.5vw, 7.8rem) !important;
+  line-height: 0.94 !important;
+}
+
+@media (max-width: 640px) {
+  .hero-headline {
+    font-size: clamp(2.6rem, 10vw, 3.8rem) !important;
+    line-height: 0.98 !important;
+  }
+}
+
+.gap-8 { gap: 2rem; }
+.py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+.max-w-4xl { max-width: 56rem; }
+.max-w-3xl { max-width: 48rem; }
+.space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+.border-l-2 { border-left-width: 2px; }
+
