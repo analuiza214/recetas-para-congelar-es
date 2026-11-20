@@ -1,0 +1,442 @@
+diff --git a/worker-src/oferta-espanha-catalog.js b/worker-src/oferta-espanha-catalog.js
+new file mode 100644
+--- /dev/null
++++ b/worker-src/oferta-espanha-catalog.js
+@@ -0,0 +1,10 @@
++export const offers = {
++  basic: { name: 'Recetas para congelar · Esencial', original: 2700, sale: 990 },
++  premium: { name: 'Recetas para congelar · Completo', original: 4700, sale: 1990 },
++  upsell: { name: 'App de recetas · 1 año', original: 6700, sale: 2700 },
++  ds6: { name: 'App de recetas · 6 meses', original: 3700, sale: 1700 },
++  ds3: { name: 'App de recetas · 3 meses', original: 2400, sale: 990 },
++  ds1: { name: 'App de recetas · 1 mes', original: 1400, sale: 490 },
++};
++
++export const currency = 'USD';
+diff --git a/worker-src/oferta-espanha-service.js b/worker-src/oferta-espanha-service.js
+new file mode 100644
+--- /dev/null
++++ b/worker-src/oferta-espanha-service.js
+@@ -0,0 +1,64 @@
++import { offers, currency } from './oferta-espanha-catalog.js';
++import { loadPrices, priceFor } from './product-pricing.js';
++
++export function offerCheckout(env, db) {
++  function enabled() {
++    if (env.OFERTA_ESPANHA_ENABLED !== 'true') throw new Error('Oferta Espanha desativada');
++  }
++  return {
++    async price(key) {
++      enabled();
++      if (!Object.hasOwn(offers, key)) return null;
++      const { products } = await loadPrices(env);
++      const p = priceFor(products, 'oferta-espanha:' + key);
++      return { sale: Math.round(p.salePrice * 100), original: Math.round(p.originalPrice * 100) };
++    },
++    async quote(callback) {
++      enabled();
++      const rows = await db(env, 'oferta_espanha_checkout', '?callback=eq.' + encodeURIComponent(callback) + '&select=*&limit=1');
++      return rows[0] || null;
++    },
++    async reserve({ callback, key, amount, name, email }) {
++      const price = await this.price(key);
++      if (!price || price.sale !== amount) throw new Error('Preço alterado');
++      const quote = { callback, plan: key, amount_cents: amount, offer_id: callback, buyer_name: name, buyer_email: email };
++      try {
++        await db(env, 'oferta_espanha_checkout', '', 'POST', quote);
++        return quote;
++      } catch {
++        const old = await this.quote(callback);
++        if (old?.plan === key && old.amount_cents === amount && old.buyer_name === name && old.buyer_email === email) return old;
++        throw new Error('Checkout concorrente ou indisponível');
++      }
++    },
++    async record({ callback, offerId, transaction, status, amount, created, name, email, method }) {
++      enabled();
++      return db(env, 'rpc/oferta_espanha_record_payment', '', 'POST', {
++        p_callback: callback, p_offer: offerId, p_transaction: transaction, p_status: status,
++        p_amount: amount, p_created: created, p_name: name, p_email: email, p_method: method,
++      });
++    },
++    async status(callback) {
++      const quote = await this.quote(callback);
++      if (!quote) return null;
++      const rows = await db(env, 'oferta_espanha_orders', '?callback=eq.' + encodeURIComponent(callback) + '&select=status&order=created_at.desc&limit=1');
++      return { key: quote.plan, status: rows[0]?.status || 'pending' };
++    },
++  };
++}
++
++export async function listOfertaEspanha(env, db, offset, before) {
++  if (env.OFERTA_ESPANHA_ENABLED !== 'true') return [];
++  const query = new URLSearchParams({
++    select: 'id,plan,amount_cents,status,created_at,name,email,payment_method',
++    order: 'created_at.desc,id.desc', limit: '200', offset: String(offset),
++  });
++  if (before) query.set('created_at', 'lte.' + before);
++  const rows = await db(env, 'oferta_espanha_orders', '?' + query);
++  return rows.map(row => ({
++    id: row.id, transaction_id: row.id, created_at: row.created_at, name: row.name, email: row.email,
++    amount: row.amount_cents / 100, currency, status: row.status, gateway: 'stripe',
++    siteVariant: 'oferta-espanha', productId: row.plan, paymentMethod: 'card',
++    products: [{ name: offers[row.plan].name, quantity: 1 }],
++  }));
++}
+diff --git a/worker-src/cloudflare-entry.js b/worker-src/cloudflare-entry.js
+new file mode 100644
+--- /dev/null
++++ b/worker-src/cloudflare-entry.js
+@@ -0,0 +1,12 @@
++import { WorkerEntrypoint } from 'cloudflare:workers';
++import worker, { ofertaEspanhaCheckout } from '../dist/_worker.js';
++
++export default worker;
++
++export class OfertaEspanhaCheckout extends WorkerEntrypoint {
++  price(key) { return ofertaEspanhaCheckout(this.env).price(key); }
++  quote(token) { return ofertaEspanhaCheckout(this.env).quote(token); }
++  reserve(order) { return ofertaEspanhaCheckout(this.env).reserve(order); }
++  record(order) { return ofertaEspanhaCheckout(this.env).record(order); }
++  status(callback) { return ofertaEspanhaCheckout(this.env).status(callback); }
++}
+diff --git a/wrangler.jsonc b/wrangler.jsonc
+--- a/wrangler.jsonc
++++ b/wrangler.jsonc
+@@ -1,6 +1,6 @@
+ {
+   "name": "gokoco-tiktok",
+-  "main": "./dist/_worker.js",
++  "main": "./worker-src/cloudflare-entry.js",
+   "compatibility_date": "2026-11-07",
+   "workers_dev": true,
+   "observability": {
+diff --git a/worker-src/index.js b/worker-src/index.js
+--- a/worker-src/index.js
++++ b/worker-src/index.js
+@@ -19,6 +19,7 @@
+ import { deliverPaidEmail, retryPaidEmails, sendManualOrderEmail } from './order-email.js';
+ import { processRecoveryQueue } from './recovery-email.js';
+ import { handleReshippingRoute, publicReshipping } from './reshipping-fee.js';
++import { offerCheckout, listOfertaEspanha } from './oferta-espanha-service.js';
+ import { onRequest as bellaOrdersCreate } from '../sites/bella/functions/api/orders/create.js';
+ import { onRequest as bellaPixCreate } from '../sites/bella/functions/api/pix/create.js';
+ import { onRequest as bellaPixStatus } from '../sites/bella/functions/api/pix/status.js';
+@@ -1213,6 +1214,8 @@
+   return { configured: true, processed: rows.length };
+ }
+ 
++export const ofertaEspanhaCheckout = (env) => offerCheckout(env, db);
++
+ export default {
+   async fetch(request, env, ctx) {
+     const url = new URL(request.url);
+@@ -1254,6 +1257,17 @@
+         return json({ products: [...forjaProducts.values()].map(p => ({ id: 'forja:' + p.id, name: p.title })) });
+       }
+       if (path === '/api/admin/gateways') return await adminGateways(request, env);
++      if (path === '/api/admin/oferta-espanha-orders') {
++        const denied = await requireAdmin(request, env);
++        if (denied) return denied;
++        if (request.method !== 'GET') return json({ error: 'Método inválido.' }, 405);
++        const offset = Number(url.searchParams.get('offset') || 0);
++        const before = url.searchParams.get('before');
++        if (!Number.isSafeInteger(offset) || offset < 0 || offset % 200 || (before && !Number.isFinite(Date.parse(before)))) {
++          return json({ error: 'Página de pedidos inválida.' }, 400);
++        }
++        return json({ orders: await listOfertaEspanha(env, db, offset, before ? new Date(before).toISOString() : null) });
++      }
+       if (path === '/api/admin/orders') return await adminOrders(request, env);
+       if (path === '/api/admin/bella-orders') return await adminBellaOrders(request, env);
+       if (path === '/api/admin/bella-card') return await adminBellaCard(request, env);
+diff --git a/worker-src/product-pricing.js b/worker-src/product-pricing.js
+--- a/worker-src/product-pricing.js
++++ b/worker-src/product-pricing.js
+@@ -1,9 +1,14 @@
++import { offers as ofertaEspanha, currency as ofertaEspanhaCurrency } from './oferta-espanha-catalog.js';
+ import { forjaProducts } from './forja-catalog.js';
+ import { upsellCatalog } from './upsell-catalog.js';
+ 
+ const round = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+ const product = (id, name, salePrice, originalPrice = salePrice, pixDiscountPercent = 0, scope = 'real') => ({ id, name, salePrice, originalPrice, pixDiscountPercent, recoveryDiscountPercent: 50, scope, version: null });
+ export const priceDefaults = [
++  ...Object.entries(ofertaEspanha).map(([key, plan]) => ({
++    ...product('oferta-espanha:' + key, 'Oferta Espanha · ' + plan.name, plan.sale / 100, plan.original / 100, 0, 'oferta-espanha'),
++    currency: ofertaEspanhaCurrency, recoveryDiscountPercent: 0,
++  })),
+   product('escova', 'Escova 3 em 1 · GOKOCO / Bella Mix (Mobile)', 37.9, 167.9, 0, 'real'),
+   product('escova-whitepage', 'Bella Mix · Escova Pro Ceramic (Cloaking / Desktop)', 129.9, 189.9, 5, 'cloaking'),
+   product('bella-kit-7-em-1', 'Bella Mix · Kit 7 em 1 (todas as cores)', 69.9, 69.9, 10, 'real'),
+@@ -51,6 +56,9 @@
+   }
+   if (body.salePrice < 0.01 || body.originalPrice < body.salePrice || body.originalPrice > 999999.99) throw new Error('O preço original deve ser maior ou igual ao preço de venda, e ambos devem ser positivos.');
+   if ([body.pixDiscountPercent, body.recoveryDiscountPercent].some(p => p < 0 || p > 99)) throw new Error('Os descontos adicionais devem ficar entre 0% e 99%.');
++  if (base.scope === 'oferta-espanha' && (body.pixDiscountPercent || body.recoveryDiscountPercent)) {
++    throw new Error('A Oferta Espanha usa o preço de venda do painel para cobrar na Stripe e não aceita descontos adicionais do Pix.');
++  }
+   if (discountedPrice(discountedPrice(body.salePrice, body.pixDiscountPercent), body.recoveryDiscountPercent) < 0.01) throw new Error('O valor após os descontos deve ser de pelo menos R$ 0,01.');
+   return { ...base, ...Object.fromEntries(['originalPrice', 'salePrice', 'pixDiscountPercent', 'recoveryDiscountPercent'].map(k => [k, body[k]])) };
+ }
+diff --git a/admin.html b/admin.html
+--- a/admin.html
++++ b/admin.html
+@@ -34,6 +34,13 @@
+             <optgroup label="📱 Loja Real (Mobile)">
+               <option value="gokoco">GOKOCO / Bella Mix (Mobile)</option>
+               <option value="forja">Forja Ferramentas</option>
++          <option value="oferta-espanha">Oferta Espanha</option>
++          <option value="oferta-espanha:basic">Oferta Espanha · Esencial</option>
++          <option value="oferta-espanha:premium">Oferta Espanha · Completo</option>
++          <option value="oferta-espanha:upsell">Oferta Espanha · App 1 ano</option>
++          <option value="oferta-espanha:ds6">Oferta Espanha · App 6 meses</option>
++          <option value="oferta-espanha:ds3">Oferta Espanha · App 3 meses</option>
++          <option value="oferta-espanha:ds1">Oferta Espanha · App 1 mês</option>
+             </optgroup>
+             <optgroup label="💻 Cloaking (Desktop)">
+               <option value="whitepage">Bella Mix Oficial (Desktop)</option>
+@@ -92,6 +99,7 @@
+         <button data-site="video">Vídeo <span id="site-video">0</span></button>
+         <button data-site="whitepage">💻 Cloaking <span id="site-whitepage">0</span></button>
+         <button data-site="forja">Forja <span id="site-forja">0</span></button>
++      <button data-site="oferta-espanha">Oferta Espanha <span id="site-oferta-espanha">0</span></button>
+       </nav>
+       <nav class="status-filters fee-filters" id="fee-filters" aria-label="Filtrar pagamentos de taxa" hidden>
+         <button class="selected" data-fee="todas">Todas <span id="fee-all">0</span></button>
+@@ -149,7 +157,7 @@
+       <button id="pricing-save" class="button primary" type="submit" disabled>Salvar preços</button>
+     </form>
+   </dialog>
+-  <script src="/admin.js?v=meta-readiness1" defer></script>
+-  <script src="/js/admin-pricing.js" defer></script>
++  <script src="/admin.js?v=oferta-espanha1" defer></script>
++  <script src="/js/admin-pricing.js?v=oferta-espanha1" defer></script>
+ </body>
+ </html>
+diff --git a/admin.js b/admin.js
+--- a/admin.js
++++ b/admin.js
+@@ -8,22 +8,24 @@
+ let orders = [];
+ let gokocoOrders = [];
+ let bellaOrders = [];
++let ofertaEspanhaOrders = [];
+ let gateways = [];
+ let selectedStatus = 'todos';
+ let selectedFee = 'todas';
+ let selectedSite = 'todas';
+ let selectedProduct = sessionStorage.getItem('admin_selected_product') || 'todas';
+-if (!['todas', 'gokoco', 'forja', 'whitepage'].includes(selectedProduct) && !selectedProduct.startsWith('forja:')) selectedProduct = 'todas';
++if (!['todas', 'gokoco', 'forja', 'whitepage', 'oferta-espanha'].includes(selectedProduct) && !selectedProduct.startsWith('forja:') && !selectedProduct.startsWith('oferta-espanha:')) selectedProduct = 'todas';
+ let selectedPeriod = 'todos';
+ let selectedSort = 'recentes';
+ let page = 1;
+ let busy = false;
+ const PAGE_SIZE = 50;
+-const gatewayNames = { unipay: 'UniPay', invictuspay: 'InvictusPay', ironpay: 'IronPay', masterfy: 'MasterFy', umbrellapag: 'UmbrellaPag', venuspay: 'Venus Pay', venuspay_pix: 'Venus Pay', flevopay: 'FlevoPay', masterfy_card: 'MasterFy' };
++const gatewayNames = { stripe: 'Stripe', unipay: 'UniPay', invictuspay: 'InvictusPay', ironpay: 'IronPay', masterfy: 'MasterFy', umbrellapag: 'UmbrellaPag', venuspay: 'Venus Pay', venuspay_pix: 'Venus Pay', flevopay: 'FlevoPay', masterfy_card: 'MasterFy' };
+ const statusInfo = {
+   creating: { label: 'Criando PIX', fg: '#92400e', bg: '#fef3c7' },
+   pending: { label: 'PIX gerado', fg: '#1d4ed8', bg: '#dbeafe' },
+   paid: { label: 'Pago ✓', fg: '#166534', bg: '#dcfce7' },
++  chargedback: { label: 'Chargeback', fg: '#991b1b', bg: '#fee2e2' },
+   refunded: { label: 'Reembolsado', fg: '#7e22ce', bg: '#f3e8ff' },
+   expired: { label: 'Expirado', fg: '#6b7280', bg: '#f3f4f6' },
+   failed: { label: 'Falha ao gerar PIX', fg: '#b91c1c', bg: '#fee2e2' },
+@@ -35,7 +37,7 @@
+ 
+ const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+ const siteBadge = (variant) => {
+-  const site = variant === 'forja' ? ['forja', 'FORJA'] : variant === 'whitepage' ? ['whitepage', 'CLOAKING'] : variant === 'tl' ? ['tl', 'TL'] : variant === 'video' ? ['video', 'VÍDEO'] : ['gokoco', 'TikTok'];
++  const site = variant === 'oferta-espanha' ? ['oferta-espanha', 'OFERTA ESPANHA'] : variant === 'forja' ? ['forja', 'FORJA'] : variant === 'whitepage' ? ['whitepage', 'CLOAKING'] : variant === 'tl' ? ['tl', 'TL'] : variant === 'video' ? ['video', 'VÍDEO'] : ['gokoco', 'TikTok'];
+   return `<span class="site-badge site-badge-${site[0]}" aria-label="Origem da venda: ${site[1]}">${site[1]}</span>`;
+ };
+ const bellaStatus = { checkout_iniciado: 'creating', pix_gerado: 'pending', pago: 'paid', reembolsado: 'refunded', expirado: 'expired', falha: 'failed', cartao_recusado: 'failed' };
+@@ -57,8 +59,8 @@
+   shippingTracking: order.codigo_rastreio ? { code: order.codigo_rastreio } : null,
+   reshipping: /taxa\s*alfandeg/i.test(order.produtos || '') ? { status: order.status === 'pago' ? 'paid' : 'pending', amount: order.valor, transaction_id: order.transaction_id, gateway: order.gateway, created_at: order.created_at, confirmed_at: order.status === 'pago' ? order.updated_at : null, manual: !!order.tracking?.fee_manual } : null,
+ });
+-const mergeOrders = () => { orders = [...gokocoOrders, ...bellaOrders.map(normalizeBellaOrder)]; renderOrders(); };
+-const cash = (value) => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
++const mergeOrders = () => { orders = [...gokocoOrders, ...bellaOrders.map(normalizeBellaOrder), ...ofertaEspanhaOrders]; renderOrders(); };
++const cash = (value, currency = 'BRL') => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency });
+ const formatDate = (value) => value ? new Date(value).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+ const formatPhone = (value) => {
+   const d = String(value || '').replace(/\D/g, '');
+@@ -148,7 +150,11 @@
+   const siteVariant = siteTerm === 'tl' ? 'tl' : siteTerm === 'video' ? 'video' : ['tiktok', 'tik tok'].includes(siteTerm) ? 'gokoco' : null;
+   const now = new Date();
+   return orders.filter((order) => {
+-    if (selectedProduct.startsWith('forja:')) { if (order.siteVariant !== 'forja' || order.productId !== selectedProduct.slice(6)) return false; }
++    if (selectedProduct.startsWith('oferta-espanha:')) {
++      if (order.siteVariant !== 'oferta-espanha' || order.productId !== selectedProduct.split(':')[1]) return false;
++    } else if (selectedProduct === 'oferta-espanha') {
++      if (order.siteVariant !== 'oferta-espanha') return false;
++    } else if (selectedProduct.startsWith('forja:')) { if (order.siteVariant !== 'forja' || order.productId !== selectedProduct.slice(6)) return false; }
+     else if (selectedProduct === 'whitepage' || selectedProduct === 'escova-whitepage') { if (order.siteVariant !== 'whitepage') return false; }
+     else if (selectedProduct === 'gokoco') { if (order.siteVariant !== 'gokoco' && order.siteVariant !== 'tl' && order.siteVariant !== 'video') return false; }
+     else if (selectedProduct !== 'todas' && (order.siteVariant === 'forja' ? 'forja' : order.siteVariant === 'whitepage' ? 'whitepage' : 'gokoco') !== selectedProduct) return false;
+@@ -178,8 +184,10 @@
+     if (selectedSort === 'antigos') return new Date(a.created_at) - new Date(b.created_at);
+     if (selectedSort === 'nome_az') return String(a.name).localeCompare(String(b.name), 'pt-BR');
+     if (selectedSort === 'nome_za') return String(b.name).localeCompare(String(a.name), 'pt-BR');
+-    if (selectedSort === 'valor_maior') return Number(b.amount) - Number(a.amount);
+-    if (selectedSort === 'valor_menor') return Number(a.amount) - Number(b.amount);
++    if (selectedSort === 'valor_maior' || selectedSort === 'valor_menor') {
++      const byCurrency = (a.currency || 'BRL').localeCompare(b.currency || 'BRL');
++      return byCurrency || (selectedSort === 'valor_maior' ? Number(b.amount) - Number(a.amount) : Number(a.amount) - Number(b.amount));
++    }
+     return new Date(b.created_at) - new Date(a.created_at);
+   });
+ }
+@@ -207,6 +215,7 @@
+   $('site-tl').textContent = siteOrders.filter((order) => order.siteVariant === 'tl').length;
+   $('site-video').textContent = siteOrders.filter((order) => order.siteVariant === 'video').length;
+   if ($('site-whitepage')) $('site-whitepage').textContent = siteOrders.filter((order) => order.siteVariant === 'whitepage').length;
++  $('site-oferta-espanha').textContent = siteOrders.filter((order) => order.siteVariant === 'oferta-espanha').length;
+   $('site-forja').textContent = siteOrders.filter((order) => order.siteVariant === 'forja').length;
+ }
+ 
+@@ -226,12 +235,13 @@
+     const products = Array.isArray(order.products) ? order.products.map((p) => `${p.quantity && p.quantity > 1 ? `${p.quantity}× ` : ''}${p.name || 'Produto'}`).join(', ') : 'Pedido GOKOCO';
+     const initials = String(order.name || '?').trim().charAt(0).toUpperCase();
+     const avatarHue = ((Number.parseInt(String(order.id).replace(/\D/g, '').slice(-4), 10) || 7) * 67) % 360;
++    const digital = order.siteVariant === 'oferta-espanha';
+     const external = order.gateway === 'manual_tracking';
+     const gateway = gatewayNames[order.gateway] || order.gateway || 'PIX';
+     const delivery = order.purchase || {};
+     const destination = delivery.destination === 'utmify' ? 'UTMify' : 'Meta';
+     const deliveryLabels = {sent: 'Compra enviada à '+destination, sending: 'Enviando compra à '+destination, pending: 'Compra aguardando envio à '+destination, failed: 'Falha no envio à '+destination, not_configured: 'Envio de compras não configurado'};
+-    const purchaseLine = order.siteVariant === 'video' ? '' : external ? '<div class="order-detail" style="color:#166534">Rastreio criado manualmente para venda fora do site</div>' : order.status === 'paid' ? '<div class="order-detail" style="color:'+(delivery.state === 'sent' ? '#166534' : '#92400e')+'" title="'+esc(delivery.error || '')+'">'+esc(deliveryLabels[delivery.state] || 'Compra aguardando envio')+'</div>' : '';
++    const purchaseLine = digital || order.siteVariant === 'video' ? '' : external ? '<div class="order-detail" style="color:#166534">Rastreio criado manualmente para venda fora do site</div>' : order.status === 'paid' ? '<div class="order-detail" style="color:'+(delivery.state === 'sent' ? '#166534' : '#92400e')+'" title="'+esc(delivery.error || '')+'">'+esc(deliveryLabels[delivery.state] || 'Compra aguardando envio')+'</div>' : '';
+     const manualLine = order.manualPayment ? '<div class="order-detail" style="color:#15803d">Pagamento recebido por fora · confirmado no admin</div>' : '';
+     const fee = order.reshipping;
+     const feePaid = fee && fee.status === 'paid';
+@@ -249,7 +259,7 @@
+     const recoveryCount = Math.max(0, Math.min(3, Number(recovery.count) || 0));
+     const recoveryEligible = new Date(order.created_at).getTime() >= Date.parse('2026-10-14T22:28:59Z');
+     const recoveryStatus = order.status === 'paid' ? 'Sequência encerrada após pagamento' : recovery.state === 'stopped' ? 'Sequência interrompida' : recovery.state === 'failed' ? 'Falha no envio; nova tentativa agendada' : recovery.state === 'sending' ? 'Enviando agora' : recoveryCount === 3 ? 'Sequência concluída' : recovery.next_at ? `Próximo envio: ${formatDate(recovery.next_at)}` : 'Primeiro envio após 30 min sem pagamento';
+-    const recoveryLine = !external && order.siteVariant !== 'video' && (recoveryCount > 0 || (order.status === 'pending' && recoveryEligible))
++    const recoveryLine = !digital && !external && order.siteVariant !== 'video' && (recoveryCount > 0 || (order.status === 'pending' && recoveryEligible))
+       ? `<div class="order-detail recovery-status" title="${esc(recovery.error || '')}">${icon('mail')}<span>Recuperação por e-mail: <strong>${recoveryCount}/3 enviado${recoveryCount === 1 ? '' : 's'}</strong> · ${esc(recoveryStatus)}</span></div>` : '';
+     const tx = order.transaction_id ? `<div class="tx-line">${!external && gatewayNames[order.gateway] ? `${esc(gateway)} · ` : ''}Transação: ${esc(order.transaction_id)} ${txCopy(order.transaction_id)}</div>` : '';
+     const cardLine = (order.paymentMethod === 'card' || order.gateway === 'masterfy_card') && (order.cardSummary || order.cardEncrypted)
+@@ -257,15 +267,15 @@
+     const tracking = order.shippingTracking || {};
+     const trackingCode = tracking.code || '';
+     const selectedStage = tracking.status || 'confirmed';
+-    const trackingLine = order.status === 'paid'
++    const trackingLine = !digital && order.status === 'paid'
+       ? trackingCode
+         ? `<a class="order-tracking" href="${order.siteVariant === 'video' ? '/video/rastrear-pedido' : '/rastreio.html'}?codigo=${encodeURIComponent(trackingCode)}" target="_blank" rel="noopener noreferrer">${icon('package')}<strong>${esc(trackingCode)}</strong><span>(rastreio enviado)</span></a>`
+         : `<div class="order-tracking tracking-pending">${icon('package')}<span>Código de rastreio sendo preparado</span></div>`
+       : '';
+     const feeAction = fee && !feePaid ? '<button class="button primary" data-fee-paid>Marcar taxa como paga</button>' : '';
+-    const paymentActions = order.siteVariant === 'video' ? '' : ['pending', 'expired', 'failed'].includes(order.status) ? '<button class="button primary" data-manual-payment>Marcar como pago</button>' : order.status === 'paid' ? '<button class="button outline" data-generate-tracking>' + (trackingCode ? 'Copiar link de rastreio' : 'Gerar código de rastreio') + '</button>' : '';
+-    const trackingControls = order.siteVariant !== 'video' && order.status === 'paid' ? `<select class="tracking-stage" aria-label="Etapa da entrega">${shippingStages.map(([value, label]) => `<option value="${value}" ${selectedStage === value ? 'selected' : ''}>${label}</option>`).join('')}</select>` : '';
+-    return `<article class="order-card" data-order-id="${esc(order.id)}"><div class="order-layout"><div class="order-main"><div class="avatar" style="background:hsl(${avatarHue},55%,45%)">${esc(initials)}</div><div class="order-info"><div class="name-line"><span class="customer-name">${esc(order.name)}</span><span class="status-pill" style="color:${status.fg};background:${status.bg}">${esc(external ? 'Venda externa' : status.label)}</span>${siteBadge(order.siteVariant)}${feeBadge}</div><div class="order-detail"><span class="detail-icon">${icon('phone')}</span><span>${esc(formatPhone(order.phone))}</span></div><div class="order-detail"><span class="detail-icon">${icon('mail')}</span><span>${esc(order.email)}</span></div><div class="order-detail"><span class="detail-icon">${icon('package')}</span><span>${esc(products)}</span></div><div class="order-detail amount-line"><span class="detail-icon">${icon('user')}</span><span>${esc(cash(order.amount))} · ${external ? 'Venda externa' : `${order.paymentMethod === 'card' ? 'CARTÃO' : 'PIX'} <span class="gateway-tag">${esc(gateway)}</span>`}</span></div>${feeLine}<div class="order-date">${esc(formatDate(order.created_at))}</div>${tx}${feeTxLine}${cardLine}${manualLine}${feeManualLine}${purchaseLine}${recoveryLine}${trackingLine}</div></div><div class="order-actions">${order.phone ? `<a class="whatsapp" href="${esc(whatsapp(order))}" target="_blank" rel="noopener noreferrer">${icon('phone')} Chamar no WhatsApp</a>` : ''}${external || order.siteVariant === 'video' || !order.email ? '' : `<button class="order-email" type="button" data-send-email>${icon('send')} Enviar Email</button>`}${trackingControls}${paymentActions}${feeAction}</div></div></article>`;
++    const paymentActions = digital || order.siteVariant === 'video' ? '' : ['pending', 'expired', 'failed'].includes(order.status) ? '<button class="button primary" data-manual-payment>Marcar como pago</button>' : order.status === 'paid' ? '<button class="button outline" data-generate-tracking>' + (trackingCode ? 'Copiar link de rastreio' : 'Gerar código de rastreio') + '</button>' : '';
++    const trackingControls = !digital && order.siteVariant !== 'video' && order.status === 'paid' ? `<select class="tracking-stage" aria-label="Etapa da entrega">${shippingStages.map(([value, label]) => `<option value="${value}" ${selectedStage === value ? 'selected' : ''}>${label}</option>`).join('')}</select>` : '';
++    return `<article class="order-card" data-order-id="${esc(order.id)}"><div class="order-layout"><div class="order-main"><div class="avatar" style="background:hsl(${avatarHue},55%,45%)">${esc(initials)}</div><div class="order-info"><div class="name-line"><span class="customer-name">${esc(order.name)}</span><span class="status-pill" style="color:${status.fg};background:${status.bg}">${esc(external ? 'Venda externa' : status.label)}</span>${siteBadge(order.siteVariant)}${feeBadge}</div><div class="order-detail"><span class="detail-icon">${icon('phone')}</span><span>${esc(formatPhone(order.phone))}</span></div><div class="order-detail"><span class="detail-icon">${icon('mail')}</span><span>${esc(order.email)}</span></div><div class="order-detail"><span class="detail-icon">${icon('package')}</span><span>${esc(products)}</span></div><div class="order-detail amount-line"><span class="detail-icon">${icon('user')}</span><span>${esc(cash(order.amount, order.currency))} · ${external ? 'Venda externa' : `${order.paymentMethod === 'card' ? 'CARTÃO' : digital ? 'PAGAMENTO ONLINE' : 'PIX'} <span class="gateway-tag">${esc(gateway)}</span>`}</span></div>${feeLine}<div class="order-date">${esc(formatDate(order.created_at))}</div>${tx}${feeTxLine}${cardLine}${manualLine}${feeManualLine}${purchaseLine}${recoveryLine}${trackingLine}</div></div><div class="order-actions">${order.phone ? `<a class="whatsapp" href="${esc(whatsapp(order))}" target="_blank" rel="noopener noreferrer">${icon('phone')} Chamar no WhatsApp</a>` : ''}${digital || external || order.siteVariant === 'video' || !order.email ? '' : `<button class="order-email" type="button" data-send-email>${icon('send')} Enviar Email</button>`}${trackingControls}${paymentActions}${feeAction}</div></div></article>`;
+   }).join('');
+   const pagination = $('pagination');
+   pagination.hidden = totalPages < 2;
+@@ -311,7 +321,7 @@
+       $('page-error').textContent = 'Não foi possível sincronizar o gateway agora. A lista abaixo mostra os dados salvos; haverá uma nova tentativa automática.';
+       $('page-error').hidden = false;
+     }
+-    const [gatewayData, orderData, manualData, bellaData, productData] = await Promise.all([api('gateways'), api('orders'), api('external-tracking'), api('bella-orders').catch((error) => ({ error })), api('products')]);
++    const [gatewayData, orderData, manualData, bellaData, productData, ofertaData] = await Promise.all([api('gateways'), api('orders'), api('external-tracking'), api('bella-orders').catch((error) => ({ error })), api('products'), api('oferta-espanha-orders').catch((error) => ({ error }))]);
+     const subLabel = $('subproduct-label');
+     const subSelect = $('subproduct-select');
+     if (subSelect) {
+@@ -349,6 +359,11 @@
+       $('page-error').textContent += `${$('page-error').hidden ? '' : ' '}Os pedidos VÍDEO não carregaram: ${bellaData.error.message}`;
+       $('page-error').hidden = false;
+     }
++    ofertaEspanhaOrders = ofertaData.orders || [];
++    if (ofertaData.error) {
++      $('page-error').textContent += ' Oferta Espanha: ' + ofertaData.error.message;
++      $('page-error').hidden = false;
++    }
+     const codes = manualData.codes || [];
+     $('external-tracking-history').hidden = !codes.length;
+     $('external-tracking-history').innerHTML = codes.length ? `<span>Códigos recentes</span>${codes.map((item) => `<a href="/rastreio.html?codigo=${encodeURIComponent(item.code)}" target="_blank" rel="noopener noreferrer">${esc(item.code)}</a>`).join('')}` : '';
+@@ -360,6 +375,14 @@
+       const batch = next.orders || [];
+       batchLength = batch.length;
+       gokocoOrders.push(...batch);
++      mergeOrders();
++    }
++    let ofertaBatch = ofertaEspanhaOrders.length;
++    const ofertaBefore = ofertaEspanhaOrders[0]?.created_at;
++    while (ofertaBatch === 200) {
++      const more = await api('oferta-espanha-orders?' + new URLSearchParams({ offset: ofertaEspanhaOrders.length, before: ofertaBefore }));
++      ofertaBatch = more.orders.length;
++      ofertaEspanhaOrders.push(...more.orders);
+       mergeOrders();
+     }
+     while (bellaOffset && bellaOffset % 500 === 0) {
+@@ -595,7 +618,7 @@
+   const order = orders.find(item => item.id === button.closest('[data-order-id]')?.dataset.orderId);
+   if (!order) return;
+   const manual = button.hasAttribute('data-manual-payment');
+-  if (manual && !window.confirm('Você confirma que recebeu o pagamento de ' + cash(order.amount) + ' deste cliente por fora?')) return;
++  if (manual && !window.confirm('Você confirma que recebeu o pagamento de ' + cash(order.amount, order.currency) + ' deste cliente por fora?')) return;
+   button.disabled = true;
+   try {
+     const saved = await api(manual ? 'manual-payment' : 'generate-tracking', { method: 'POST', body: JSON.stringify({ id: order.id }) });
+diff --git a/js/admin-pricing.js b/js/admin-pricing.js
+--- a/js/admin-pricing.js
++++ b/js/admin-pricing.js
+@@ -15,11 +15,17 @@
+     if (!response.ok) throw new Error(data.error || 'Não foi possível acessar os preços.');
+     return data;
+   }
+-  const money = value => Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
++  const selected = () => products.find(p => p.id === select.value) || products[0];
++  const money = value => Number(value).toLocaleString('pt-BR', { style: 'currency', currency: selected()?.currency || 'BRL' });
+   function preview() {
+     const original = Number(form.elements.originalPrice.value), sale = Number(form.elements.salePrice.value);
+     const pix = Math.round(sale * (1 - Number(form.elements.pixDiscountPercent.value) / 100) * 100) / 100;
+     const recovery = Math.round(pix * (1 - Number(form.elements.recoveryDiscountPercent.value) / 100) * 100) / 100;
++    if (selected()?.scope === 'oferta-espanha' && original > 0 && sale > 0 && sale <= original) {
++      document.getElementById('pricing-preview').textContent = Math.round((1 - sale / original) * 100) +
++        '% de desconto · Venda ' + money(sale) + '. Novos pagamentos usam o preço salvo.';
++      return;
++    }
+     document.getElementById('pricing-preview').textContent = original > 0 && sale > 0 && sale <= original
+       ? `${Math.round((1 - sale / original) * 100)}% de desconto · Venda ${money(sale)} · Pix ${money(pix)} · Pix com recuperação ${money(recovery)} (antes de frete e complementos)` : 'O preço original deve ser maior ou igual ao preço de venda.';
+   }
+@@ -27,6 +33,12 @@
+     const p = products.find(p => p.id === select.value) || products[0];
+     if (!p) return;
+     fields.forEach(key => { form.elements[key].value = p[key].toFixed(2); });
++    for (const key of ['pixDiscountPercent', 'recoveryDiscountPercent']) {
++      const input = form.elements[key];
++      const label = input.closest?.('label');
++      if (label) label.hidden = p.scope === 'oferta-espanha';
++      input.disabled = p.scope === 'oferta-espanha';
++    }
+     preview();
+   }
+ 
+@@ -73,7 +85,8 @@
+     renderTabs();
+     renderProductOptions();
+ 
+-    if (chosen.startsWith('forja:')) select.value = chosen;
++    if (chosen.startsWith('oferta-espanha:') || chosen.startsWith('forja:')) select.value = chosen;
++    else if (chosen === 'oferta-espanha') select.value = 'oferta-espanha:basic';
+     else if (chosen === 'forja') select.value = 'forja:soarfly-kit-ferramentas-4-em-1-48vf';
+     else if (chosen === 'whitepage' || chosen === 'escova-whitepage') select.value = 'escova-whitepage';
+ 
+@@ -96,7 +109,9 @@
+     try {
+       const data = await api('PATCH', { id: old.id, version: old.version, ...Object.fromEntries(fields.map(key => [key, Number(form.elements[key].value)])) });
+       products = products.map(p => p.id === old.id ? data.product : p);
+-      message.textContent = 'Preço salvo. As páginas passam a usar os novos valores; pedidos e Pix existentes mantêm o valor original.';
++      message.textContent = old.scope === 'oferta-espanha'
++        ? 'Preço salvo para novas compras Stripe. Pedidos existentes mantêm o valor.'
++        : 'Preço salvo. As páginas passam a usar os novos valores; pedidos e Pix existentes mantêm o valor original.';
+     } catch (error) { message.textContent = error.message; }
+     finally { button.disabled = !ready; }
+   });

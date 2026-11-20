@@ -51,8 +51,8 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:22px;color:var(--verde);line-h
 .btn small{display:block;font-weight:600;font-size:12.5px;opacity:.92;margin-top:4px}
 .micro{font-size:12.5px;color:var(--cinza);text-align:center;margin-top:12px}
 .recusa{display:block;width:100%;margin-top:14px;background:#d93636;color:#fff;text-decoration:none;text-align:center;font-weight:800;font-size:15px;line-height:1.25;padding:14px 12px;border-radius:14px;box-shadow:0 4px 0 #a92424}
-.cakto-slot:empty{display:none}
-.cakto-slot{margin-top:14px}
+.gateway-slot:empty{display:none}
+.gateway-slot{margin-top:14px}
 
 .bloco{background:var(--creme-2);border:1px solid var(--linha);border-radius:18px;padding:20px 18px;margin-top:22px}
 .lista{list-style:none;display:grid;gap:11px}

@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tu pedido ha sido confirmado — Completa tu cocina</title>
 <meta name="robots" content="noindex,nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-oferta="upsell">
@@ -23,31 +20,23 @@
     <h1>¡Espera! Tu libro te da las recetas. <em>Nuestra app hace que las prepares sin esfuerzo.</em></h1>
     <p class="sub">Más de 360 recetas con video paso a paso, lista de compras automática y planificación semanal, todo en una app en tu móvil.</p>
 
-    <div class="video">
-      <video src="https://cdn.jsdelivr.net/gh/hmacieldesigner/congelamentosaudavel-upssel@6d9c8027ec620950346dd48425cc2739237d422b/assets/vsl.mp4" poster="img/poster.webp" playsinline webkit-playsinline preload="auto" autoplay muted></video>
-      <button class="som" type="button" aria-label="Activar el sonido"><span>🔊 Tu video ya comenzó<small>Toca aquí para escuchar</small></span></button>
-      <button class="pausa" type="button">▶ Continuar viendo</button>
-      <div class="trilho"><i></i></div>
-    </div>
   </section>
 
-  <!-- SECCIÓN DE OFERTA (Se revela con el video o parámetro ?btn=1) -->
-  <section class="oferta oculto" data-revelar>
+  <section class="oferta">
     <div class="preco">
-      <div class="de">En la tienda de la app: <s>$67/año</s></div>
+      <div class="de">En la tienda de la app: <s data-checkout-price="upsell-original">67 USD</s></div>
       <div class="so">Solo en esta página</div>
       <div class="plano">Acceso Completo · 1 año</div>
-      <div class="valor"><sup>$</sup>27</div>
-      <div class="det">pago único · menos de $0.08 por día</div>
+      <div class="valor" data-checkout-price="upsell-sale">27 USD</div>
+      <div class="det">pago único · acceso digital</div>
     </div>
 
-    <div class="cakto-slot"><!-- Opcional: código embebido de pasarela de pago --></div>
-    <a class="btn padrao" data-aceitar href="#">SÍ, QUIERO EL ACCESO COMPLETO POR $27<small>El acceso llega inmediatamente a tu correo de compra</small></a>
+    <a class="btn padrao" data-aceitar data-checkout-plan="upsell" href="/comprar?plan=upsell&amp;price=2700">SÍ, QUIERO EL ACCESO COMPLETO <small>El acceso llega inmediatamente a tu correo de compra</small></a>
     <p class="micro padrao">🔒 Pago único · acceso por 1 año · garantía incondicional de 7 días</p>
-    <a class="recusa padrao" data-recusar href="#">No, gracias. Prefiero quedarme solo con el libro</a>
+    <a class="recusa padrao" data-recusar href="6-meses.html">No, gracias. Prefiero quedarme solo con el libro</a>
   </section>
 
-  <section class="bloco oculto" data-revelar>
+  <section class="bloco">
     <h2>Lo que desbloqueas hoy</h2>
     <ul class="lista">
       <li><i>📚</i><span><b>Más de 360 recetas</b> completas, saludables y prácticas</span></li>
@@ -60,7 +49,7 @@
     </ul>
   </section>
 
-  <section class="bloco oculto" data-revelar>
+  <section class="bloco">
     <h2>Por dentro de la app</h2>
     <div class="prints">
       <figure><img src="img/app_88.webp" alt="Recetas con video" loading="lazy"><figcaption>Recetas con video</figcaption></figure>
@@ -70,20 +59,21 @@
     </div>
   </section>
 
-  <section class="bloco oculto" data-revelar>
+  <section class="bloco">
     <div class="garantia">
       <div class="selo"><b>7</b><span>días de<br>garantía</span></div>
       <p><b>¿Lo probaste y no te encantó? Te devolvemos el 100%, sin preguntas.</b> Puedes probar toda la plataforma durante 7 días con el riesgo 100% de nuestro lado.</p>
     </div>
   </section>
 
-  <section class="oculto" data-revelar>
-    <a class="btn padrao" data-aceitar href="#">SÍ, QUIERO EL ACCESO COMPLETO POR $27<small>Condición exclusiva disponible únicamente en esta página</small></a>
-    <a class="recusa padrao" data-recusar href="#">No, gracias. Prefiero quedarme solo con el libro</a>
+  <section>
+    <a class="btn padrao" data-aceitar data-checkout-plan="upsell" href="/comprar?plan=upsell&amp;price=2700">SÍ, QUIERO EL ACCESO COMPLETO <small>Condición exclusiva disponible únicamente en esta página</small></a>
+    <a class="recusa padrao" data-recusar href="6-meses.html">No, gracias. Prefiero quedarme solo con el libro</a>
   </section>
 
   <p class="rodape">Tu cocina inteligente · Tu ritmo, tu salud, tu tiempo.</p>
 </main>
 <script src="funil.js"></script>
+<script src="/checkout-ofertas.js" defer></script>
 </body>
 </html>

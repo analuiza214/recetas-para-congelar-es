@@ -7,11 +7,8 @@
   <meta name="description" content="Más de 100 recetas saludables para preparar una vez, congelar y comer delicioso toda la semana sin perder textura ni sabor.">
   
   <!-- Preconnect and Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Preload hero image for fast LCP -->
   <link rel="preload" as="image" href="img/banner-congelado.webp" type="image/webp">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website">
@@ -85,8 +82,8 @@
                 <span class="text-lg group-hover:translate-x-1 transition-transform">→</span>
               </a>
               <div class="flex items-baseline gap-2">
-                <span class="text-ink/50 line-through text-sm" data-price-hero-old>$27</span>
-                <span class="font-display text-3xl text-ink" data-price-hero-current>$9.90</span>
+                <span class="text-ink/50 line-through text-sm" data-checkout-price="basic-original">27 USD</span>
+                <span class="font-display text-3xl text-ink" data-checkout-price="basic-sale">9.90 USD</span>
                 <span class="text-xs text-ink/60 italic">pago único</span>
               </div>
             </div>
@@ -445,11 +442,11 @@
 
             <div class="mt-auto pt-6 md:pt-8 border-t border-ink/20">
               <div class="flex flex-wrap items-baseline justify-center gap-x-2 md:gap-x-3 gap-y-1 mb-5 md:mb-6 text-center">
-                <span class="line-through text-sm md:text-base text-ink/40" data-price-basic-old>$27</span>
-                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-ink" data-price-basic-current>$9.90</span>
+                <span class="line-through text-sm md:text-base text-ink/40" data-checkout-price="basic-original">27 USD</span>
+                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-ink" data-checkout-price="basic-sale">9.90 USD</span>
                 <span class="text-[10px] md:text-xs italic text-ink/60">pago único</span>
               </div>
-              <a href="https://pay.cakto.com.br/qnjh4wc" class="checkout-btn group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-forest text-cream hover:bg-terracotta transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase" data-plan="basic">
+              <a href="/comprar?plan=basic&amp;price=990" data-checkout-plan="basic" class="checkout-btn group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-forest text-cream hover:bg-terracotta transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase" data-plan="basic">
                 <span>Comprar ahora</span>
                 <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
               </a>
@@ -482,11 +479,11 @@
 
             <div class="mt-auto pt-6 md:pt-8 border-t border-cream/20">
               <div class="flex flex-wrap items-baseline justify-center gap-x-2 md:gap-x-3 gap-y-1 mb-5 md:mb-6 text-center">
-                <span class="line-through text-sm md:text-base text-cream/40" data-price-premium-old>$47</span>
-                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-cream" data-price-premium-current>$19.90</span>
+                <span class="line-through text-sm md:text-base text-cream/40" data-checkout-price="premium-original">47 USD</span>
+                <span class="font-display text-4xl sm:text-5xl md:text-6xl whitespace-nowrap text-cream" data-checkout-price="premium-sale">19.90 USD</span>
                 <span class="text-[10px] md:text-xs italic text-cream/60">pago único</span>
               </div>
-              <a href="https://pay.cakto.com.br/oaeedp7" class="checkout-btn shimmer group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-cream text-ink hover:bg-ochre transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase shadow-lg" data-plan="premium">
+              <a href="/comprar?plan=premium&amp;price=1990" data-checkout-plan="premium" class="checkout-btn shimmer group inline-flex items-center justify-center w-full px-4 md:px-8 py-3.5 md:py-4 bg-cream text-ink hover:bg-ochre transition-colors duration-300 font-medium tracking-[0.2em] text-xs uppercase shadow-lg" data-plan="premium">
                 <span>Comprar ahora</span>
                 <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
               </a>
@@ -769,8 +766,8 @@
   <!-- ======================================================== -->
   <aside id="sticky-bar" class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-cream/95 backdrop-blur border-t border-ink/15 px-4 py-3 flex items-center justify-between gap-3 transition-transform duration-300 translate-y-full shadow-2xl">
     <div class="leading-tight">
-      <div class="text-[11px] text-ink/50 line-through" data-sticky-old>$27</div>
-      <div class="font-display text-2xl text-ink" data-sticky-current>$9.90</div>
+      <div class="text-[11px] text-ink/50 line-through" data-checkout-price="basic-original">27 USD</div>
+      <div class="font-display text-2xl text-ink" data-checkout-price="basic-sale">9.90 USD</div>
     </div>
     <a href="#ofertas" class="shimmer bg-forest text-cream px-5 py-3 text-xs uppercase tracking-[0.2em] font-medium flex items-center shadow-md">
       <span>Quiero las recetas</span>
@@ -778,5 +775,6 @@
     </a>
   </aside>
 
+  <script src="/checkout-ofertas.js" defer></script>
 </body>
 </html>

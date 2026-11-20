@@ -1,0 +1,779 @@
+/* Reset e Variáveis de Cor */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #fbf9f4;
+  --cream-card: #ffffff;
+  --cream-alt: #f4efe4;
+  --forest: #214d39;
+  --forest-hover: #183c2c;
+  --forest-light: #eaf1ed;
+  --ink: #292e26;
+  --muted: #646b60;
+  --line: #e3e5db;
+  --gold: #d49a37;
+  --terracotta: #b8674d;
+  --danger: #a1322b;
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(33,77,57,0.08);
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font: 14px/1.6 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header */
+header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 24px;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.brand em {
+  font-style: italic;
+  color: var(--forest);
+}
+
+.brand span {
+  display: block;
+  font-family: Inter, sans-serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.security-badge-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--forest-light);
+  color: var(--forest);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.icon-lock {
+  width: 14px;
+  height: 14px;
+}
+
+/* Estrutura Principal */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  min-height: calc(100vh - 75px);
+}
+
+/* Coluna Resumo (Esquerda) */
+.summary {
+  padding: 40px 50px 60px 30px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+
+.back:hover {
+  color: var(--forest);
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 8px;
+}
+
+.summary h1 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(32px, 3.2vw, 44px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.summary h1 em {
+  font-style: italic;
+  color: var(--forest);
+}
+
+/* Card do Produto */
+.product {
+  display: flex;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.product-thumb {
+  width: 75px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--forest);
+  background: var(--forest-light);
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-bottom: 6px;
+}
+
+.product h2 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+
+.product-meta {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* Caixa de Preço */
+.price-box {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  color: var(--muted);
+  padding-bottom: 10px;
+}
+
+.price-row.total {
+  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+  padding-bottom: 2px;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.price-row.total strong {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.currency-note {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 6px;
+}
+
+/* Benefícios */
+.benefits-card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+}
+
+.benefits-card h3 {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.benefits {
+  list-style: none;
+  font-size: 12.5px;
+}
+
+.benefits li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  color: #434c40;
+  line-height: 1.45;
+}
+
+.benefits li:last-child {
+  margin-bottom: 0;
+}
+
+.benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--forest);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* Selo de Garantia */
+.guarantee-box {
+  background: #fdfcf7;
+  border: 1px solid #e2d9c2;
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+}
+
+.guarantee-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.guarantee-badge-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f8edd1;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.guarantee-badge-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.guarantee-header h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #574112;
+}
+
+.guarantee-sub {
+  font-size: 11px;
+  color: #7b6537;
+  display: block;
+}
+
+.guarantee-box p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #635336;
+}
+
+/* Depoimento / Prova Social */
+.testimonial-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.stars {
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.testimonial-text {
+  font-size: 12px;
+  line-height: 1.5;
+  font-style: italic;
+  color: #495046;
+  margin-bottom: 12px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
+.testimonial-author strong {
+  display: block;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.testimonial-author span {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* Coluna Formulário de Pagamento (Direita) */
+.payment {
+  background: #ffffff;
+  border-left: 1px solid var(--line);
+  padding: 40px 48px 60px;
+}
+
+.payment-heading {
+  margin-bottom: 24px;
+}
+
+.payment-heading h2 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(26px, 2.5vw, 34px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 6px 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.payment-heading h2 em {
+  color: var(--forest);
+  font-style: italic;
+}
+
+.payment-heading p {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* Steps e Formulário */
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.step-num {
+  width: 22px;
+  height: 22px;
+  background: var(--forest);
+  color: #ffffff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+input {
+  width: 100%;
+  border: 1px solid #d8dbd1;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font: 14px Inter, system-ui, sans-serif;
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(33, 77, 57, 0.12);
+}
+
+.field-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.field-hint svg {
+  flex-shrink: 0;
+}
+
+/* Cabeçalho do Método de Pagamento */
+.payment-method-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.payment-method-header legend {
+  margin-bottom: 0;
+}
+
+.payment-cards-icons {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.card-logo {
+  height: 20px;
+  width: auto;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Container do Stripe Elements */
+#payment-element {
+  margin-bottom: 20px;
+  min-height: 120px;
+}
+
+.stripe-loading-skeleton {
+  background: #fbfbfa;
+  border: 1px dashed #d5dacd;
+  border-radius: 6px;
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 200%;
+  }
+}
+
+/* Mensagens de Alerta */
+.notice {
+  background: #fbf4df;
+  border: 1px solid #eedaa2;
+  color: #725712;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.error {
+  background: #fdf1f0;
+  border: 1px solid #f2c7c5;
+  color: var(--danger);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+/* Botão Principal */
+button#pay,
+.button {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--forest);
+  color: #ffffff;
+  font: 600 14px Inter, system-ui, sans-serif;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(33, 77, 57, 0.25);
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+button#pay:hover:not(:disabled),
+.button:hover:not(:disabled) {
+  background: var(--forest-hover);
+  box-shadow: 0 6px 18px rgba(33, 77, 57, 0.35);
+  transform: translateY(-1px);
+}
+
+button#pay:active:not(:disabled),
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button#pay:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-lock-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Selos no Rodapé do Form */
+.trust-footer-box {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.trust-item svg {
+  width: 15px;
+  height: 15px;
+  color: var(--forest);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.trust-item strong {
+  color: var(--ink);
+}
+
+/* Confirmação e Sucesso */
+.confirmation {
+  background: #fbfbfa;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 36px 24px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.confirmation-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e1e4da;
+  border-top-color: var(--forest);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 18px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.confirmation h3 {
+  font-family: Fraunces, Georgia, serif;
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: var(--forest);
+}
+
+.confirmation p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.confirmation .button {
+  display: inline-block;
+  width: auto;
+  padding: 12px 28px;
+}
+
+/* Rodapé / Suporte */
+footer {
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.support-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.support-email {
+  color: var(--forest);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.copyright-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Utilidades */
+[hidden] {
+  display: none !important;
+}
+
+/* Responsividade Mobile (Espanha / Mobile First) */
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .summary {
+    padding: 24px 20px 28px;
+    order: 1;
+  }
+
+  .summary h1 {
+    font-size: 30px;
+    margin-bottom: 18px;
+  }
+
+  .summary h1 br {
+    display: none;
+  }
+
+  .payment {
+    padding: 30px 20px 40px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    order: 2;
+    background: #ffffff;
+  }
+
+  .payment-heading h2 {
+    font-size: 26px;
+  }
+
+  .payment-heading h2 br {
+    display: none;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .security-badge-header {
+    font-size: 10.5px;
+    padding: 4px 10px;
+  }
+
+  .copyright-info {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

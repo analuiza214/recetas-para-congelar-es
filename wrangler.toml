@@ -1,7 +1,18 @@
 name = "recetas-para-congelar-es"
 main = "src/worker.js"
 compatibility_date = "2026-11-18"
+keep_vars = true
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+run_worker_first = true
 not_found_handling = "none"
+
+[vars]
+STRIPE_MODE = "live"
+
+[[services]]
+binding = "BELLA_CHECKOUT"
+service = "gokoco-tiktok"
+entrypoint = "OfertaEspanhaCheckout"

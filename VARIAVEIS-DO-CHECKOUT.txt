@@ -1,0 +1,93 @@
+OFERTA ES — VARIAVEIS E INTEGRACAO DO CHECKOUT
+Atualizado em 20/11/2026
+
+ESTADO DESTA ETAPA
+STRIPE_MODE=live no servidor e em wrangler.toml.
+Chave restrita de producao e chave publica live configuradas.
+Conta Stripe confirmou charges_enabled=true pela verificacao do checkout.
+Webhook live configurado e assinatura conferida sem transacao financeira.
+Nenhum cartao foi informado e nenhuma cobranca real foi efetuada na validacao.
+Entrega automatica dos arquivos ainda depende da integracao dos produtos.
+Destino de producao: we_1Udh2KC11MX8ABq8AQLhf2m2.
+Destino de teste: we_1UdfIMC11MX8ABq8gA1AaIVx.
+Segredos dos dois destinos sao diferentes.
+
+Este arquivo identifica as configuracoes. Nao contem chaves secretas.
+Os valores verdadeiros devem ficar na Cloudflare, nao neste arquivo.
+
+ONDE ALTERAR
+Cloudflare > Workers & Pages > recetas-para-congelar-es > Settings
+> Runtime variables and secrets > Production.
+Painel: https://dash.cloudflare.com/bcd17c285a1b68f8c3932676db6588c5/workers/services/view/recetas-para-congelar-es/production/settings
+
+VARIAVEIS DA STRIPE
+
+STRIPE_MODE
+Tipo: variavel Text.
+test = cartoes ficticios; live = pagamentos reais.
+Estado conferido nesta etapa: live.
+Tambem existe em wrangler.toml; mantenha arquivo e servidor alinhados.
+
+STRIPE_PUBLISHABLE_KEY
+Tipo: variavel Text (chave publica, permitida no navegador).
+Prefixo de teste: pk_test_ / prefixo de producao: pk_live_.
+Origem: Stripe > conta Receitas Gringa > Chaves de API, no ambiente correto.
+
+STRIPE_SECRET_KEY
+Tipo: Secret criptografado.
+Prefixo de teste: sk_test_ ou rk_test_.
+Prefixo de producao: sk_live_ ou rk_live_.
+Chaves rk_ possuem permissoes restritas aos recursos autorizados.
+Usada pelo servidor para criar e consultar pagamentos.
+Deve pertencer a mesma conta e ambiente da chave publica.
+Nunca colocar no frontend, Git, mensagens ou neste arquivo.
+
+STRIPE_WEBHOOK_SECRET
+Tipo: Secret criptografado. Prefixo: whsec_.
+Obtido na pagina do destino webhook na Stripe.
+O segredo de teste NAO serve para o destino de producao.
+URL do webhook:
+https://recetas-para-congelar-es.loja-oficial.workers.dev/api/checkout/stripe
+Escopo: propria conta. Conteudo: Snapshot / Instantaneo.
+Eventos:
+payment_intent.succeeded
+charge.refunded
+charge.dispute.created
+charge.dispute.closed
+
+OFERTA_ESPANHA_PAUSE
+Variavel Text opcional. true pausa novas criacoes de pagamento.
+Nao bloqueia a confirmacao de webhooks de pagamentos ja iniciados.
+Valor ausente ou diferente de true nao aplica a pausa.
+
+OUTROS BINDINGS (NAO SAO TOKENS STRIPE)
+ASSETS: arquivos do site.
+BELLA_CHECKOUT: service binding para gokoco-tiktok,
+entrypoint OfertaEspanhaCheckout, na mesma conta Cloudflare.
+O backend compartilhado usa o Supabase existente. Nao criar novas chaves
+Supabase nem copiar service_role para o frontend para configurar a Stripe.
+
+COMO FUNCIONA
+Pagina de vendas > /comprar > servidor valida preco > Stripe processa
+> webhook assinado > backend grava pedido no Supabase > painel Bella Mix.
+O acesso ao produto depende da integracao de entrega, separada do pagamento.
+
+MOEDA E PRECOS
+Moeda confirmada pelo proprietario: USD.
+Precos pelo painel Bella Mix > Oferta Espanha > Precos e descontos.
+Pedidos e tentativas ja iniciados preservam o valor reservado.
+
+TROCA DE CREDENCIAIS
+1. Conferir conta e ambiente na Stripe.
+2. Configurar as tres chaves correspondentes no Worker da oferta.
+3. Alinhar STRIPE_MODE e wrangler.toml.
+4. Verificar checkout, assinatura do webhook e pedido no painel.
+5. Nao revogar uma chave ainda utilizada por outra integracao.
+6. Uma chave perdida nao e recuperada da Cloudflare: usar a gestao segura
+   da Stripe para recuperacao permitida ou substituicao controlada.
+
+REPOSITORIO E PUBLICACAO
+wrangler.toml usa keep_vars=true e assets.run_worker_first=true.
+Deploys do backend compartilhado precisam preservar a extensao Oferta ES.
+Nao substituir o backend por um build local antigo.
+Relatorios tecnicos estao em revisao/.

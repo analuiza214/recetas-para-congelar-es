@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Pago Seguro · Recetas para congelar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./checkout.css">
+  <script src="https://js.stripe.com/v3/" defer></script>
+  <script src="/checkout.js" defer></script>
+</head>
+<body>
+  <!-- Header de Confiança -->
+  <header>
+    <div class="header-inner">
+      <a class="brand" href="/">Recetas <em>para congelar</em><span>COCINA A TU RITMO</span></a>
+      <div class="security-badge-header">
+        <svg class="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        <span>Pago 100% Seguro · Encriptación SSL 256-bit</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Coluna Esquerda: Resumo de Valor, Garantia e Prova Social -->
+    <section class="summary">
+      <a class="back" href="/#ofertas">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Volver a las ofertas
+      </a>
+
+      <p class="eyebrow">RESUMEN DE TU PEDIDO</p>
+      <h1>Menos tiempo en la cocina. <br><em>Más para ti.</em></h1>
+
+      <!-- Card do Produto -->
+      <div class="product">
+        <img src="./img/receitas-saudaveis-para-congelar.webp" alt="Recetario digital de recetas para congelar" class="product-thumb">
+        <div class="product-info">
+          <span class="product-tag">ACCESO DIGITAL INMEDIATO</span>
+          <h2 id="product-name">Recetas para congelar</h2>
+          <p class="product-meta">Libro digital en PDF · En español · Descarga directa</p>
+        </div>
+      </div>
+
+      <!-- Resumo Financeiro -->
+      <div class="price-box">
+        <div class="price-row">
+          <span>Subtotal</span>
+          <span id="subtotal">—</span>
+        </div>
+        <div class="price-row total">
+          <span>Total a pagar</span>
+          <strong id="total">—</strong>
+        </div>
+        <p class="currency-note" id="currency-note">Pago único · Sin cargos ocultos ni suscripciones.</p>
+      </div>
+
+      <!-- Benefícios Imediatos -->
+      <div class="benefits-card">
+        <h3>Tu compra incluye:</h3>
+        <ul class="benefits">
+          <li><strong>Descarga inmediata:</strong> Recibe el acceso en tu correo en menos de 2 minutos.</li>
+          <li><strong>Formato PDF universal:</strong> Compatible con móvil, tablet, ordenador o para imprimir.</li>
+          <li><strong>Pago único y para siempre:</strong> Acceso vitalicio sin cuotas mensuales ni renovaciones.</li>
+          <li><strong>Ingredientes accesibles:</strong> Todo fácil de encontrar en cualquier supermercado de España.</li>
+        </ul>
+      </div>
+
+      <!-- Selo de Garantia Europeu / Espanha -->
+      <div class="guarantee-box">
+        <div class="guarantee-header">
+          <div class="guarantee-badge-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+          </div>
+          <div>
+            <h4>Garantía incondicional de 14 días</h4>
+            <span class="guarantee-sub">Prueba con total tranquilidad</span>
+          </div>
+        </div>
+        <p>Si durante los próximos 14 días sientes que este método no te ahorra tiempo ni dinero en la cocina, solo envíanos un correo y te devolveremos el 100% de tu dinero inmediatamente. Sin preguntas ni complicaciones.</p>
+      </div>
+
+      <!-- Depoimento Real / Prova Social (Espanha) -->
+      <div class="testimonial-card">
+        <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+        <p class="testimonial-text">«Trabajo todo el día fuera y llegar a cocinar me agotaba. Con este método dedico solo un par de horas el domingo y como sano y variado de lunes a viernes. Es la mejor inversión que he hecho este año.»</p>
+        <div class="testimonial-author">
+          <img src="./img/pexels-photo-762020.jpg" alt="Foto de Laura Gómez" class="author-img">
+          <div>
+            <strong>Laura Gómez</strong>
+            <span>Madrid · Compradora verificada</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coluna Direita: Formulário de Pagamento Transparente -->
+    <section class="payment">
+      <div class="payment-heading">
+        <span class="eyebrow">FINALIZA TU COMPRA</span>
+        <h2>A un paso de <br><em>cocinar con calma.</em></h2>
+        <p>Rellena tus datos y accede inmediatamente a todo el material.</p>
+      </div>
+
+      <div class="notice" id="notice" role="status" hidden></div>
+
+      <form id="checkout-form">
+        <!-- Passo 1: Dados do Comprador -->
+        <fieldset id="buyer-fields">
+          <legend>
+            <span class="step-num">1</span>
+            Tus datos de entrega
+          </legend>
+          
+          <div class="form-group">
+            <label for="buyer-name">Nombre completo</label>
+            <input id="buyer-name" name="name" autocomplete="name" placeholder="Ej. María Fernández García" maxlength="150" minlength="3" required>
+          </div>
+
+          <div class="form-group">
+            <label for="buyer-email">Correo electrónico</label>
+            <input id="buyer-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="254" required>
+            <small class="field-hint">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Te enviaremos aquí el enlace de descarga directa del libro tras el pago.
+            </small>
+          </div>
+        </fieldset>
+
+        <!-- Passo 2: Pagamento Seguro -->
+        <div class="payment-method-header">
+          <legend>
+            <span class="step-num">2</span>
+            Pago seguro
+          </legend>
+          <!-- Bandeiras Oficiais de Pagamento -->
+          <div class="payment-cards-icons" title="Aceptamos Visa, Mastercard, American Express y pagos móviles">
+            <!-- Visa -->
+            <svg class="card-logo" viewBox="0 0 36 24" fill="none"><rect width="36" height="24" rx="3" fill="#0A2540"/><text x="6" y="16" fill="#fff" font-family="Arial,sans-serif" font-size="11" font-weight="bold" font-style="italic">VISA</text></svg>
+            <!-- Mastercard -->
+            <svg class="card-logo" viewBox="0 0 36 24" fill="none"><rect width="36" height="24" rx="3" fill="#252525"/><circle cx="14" cy="12" r="7" fill="#EB001B"/><circle cx="22" cy="12" r="7" fill="#F79E1B" fill-opacity="0.85"/></svg>
+            <!-- Amex -->
+            <svg class="card-logo" viewBox="0 0 36 24" fill="none"><rect width="36" height="24" rx="3" fill="#0077A6"/><text x="4" y="15" fill="#fff" font-family="Arial,sans-serif" font-size="8" font-weight="bold">AMEX</text></svg>
+          </div>
+        </div>
+
+        <div id="payment-element">
+          <div class="stripe-loading-skeleton">
+            <div class="skeleton-shimmer"></div>
+            <p>Cargando pasarela de pago segura…</p>
+          </div>
+        </div>
+
+        <div class="error" id="error" role="alert" hidden></div>
+
+        <!-- Botão Principal de Conversão -->
+        <button id="pay" type="submit" disabled>
+          <span class="btn-content">
+            <svg class="btn-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Pagar <span id="pay-amount">—</span> · Acceso Inmediato
+          </span>
+        </button>
+
+        <!-- Selos de Confiança e RGPD -->
+        <div class="trust-footer-box">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span><strong>Cifrado SSL 256 bits:</strong> Tus datos de pago viajan cifrados directamente a Stripe bajo normativa bancaria PCI-DSS Nivel 1.</span>
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span><strong>Privacidad protegida:</strong> Tratamos tus datos con total confidencialidad según el RGPD de la Unión Europea.</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- Estado de Confirmação -->
+      <div class="confirmation" id="confirmation" hidden>
+        <div class="confirmation-spinner"></div>
+        <h3>Comprobando tu pago de forma segura</h3>
+        <p id="estado" role="status">Esperando la confirmación del banco…</p>
+        <a class="button" id="continuar" hidden>Continuar a tu compra →</a>
+      </div>
+
+      <!-- Rodapé / Suporte -->
+      <footer>
+        <div class="support-info">
+          <span>¿Tienes dudas con tu pedido?</span>
+          <a href="mailto:soporte@recetasparacongelar.com" class="support-email">soporte@recetasparacongelar.com</a>
+        </div>
+        <div class="copyright-info">
+          <span>Recetas para congelar © Todos los derechos reservados.</span>
+          <span>Pago seguro · Acceso digital inmediato</span>
+        </div>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

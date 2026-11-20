@@ -9,7 +9,7 @@ Configurado para deploy como **Cloudflare Worker com Assets binding** (não é P
 
 ```
 recetas-para-congelar-es/
-├── dist/                      # Arquivos estáticos prontos (não edite manualmente)
+├── dist/                      # Arquivos estáticos publicados pelo Worker
 │   ├── index.html             # Landing page principal (ES, USD)
 │   ├── styles.css             # CSS compilado
 │   ├── page.js                # Lógica da landing page
@@ -32,7 +32,7 @@ recetas-para-congelar-es/
 
 ## Pré-requisitos
 
-- Node.js 18+
+- Node.js 22+
 - Conta no Cloudflare com Workers habilitado
 - Wrangler CLI (instalado via `npm install`)
 
@@ -82,16 +82,11 @@ Acesse: `http://localhost:8787`
 
 ## Personalizações Necessárias Antes do Lançamento
 
-### 🔗 Links de Checkout (obrigatório)
-Substitua os URLs do Cakto pelos seus próprios links de pagamento:
+### Checkout e integração com Bella Mix / GOKOCO
 
-- **Landing page:** [`dist/page.js`](dist/page.js) — linhas 21–24
-- **Funil upsell:** [`dist/upsell/funil.js`](dist/upsell/funil.js) — linhas 7–18
+A landing e o funil usam /comprar no próprio domínio. O checkout em espanhol incorpora Stripe Payment Element. O Worker cria PaymentIntents com preço validado no backend e confirma pagamentos por webhook assinado. Consulte revisao/INTEGRACAO.md para configuração.
 
-### 🎥 Vídeo do Upsell (quando tiver o vídeo em espanhol)
-Substitua o `src` do vídeo em:
-
-- [`dist/upsell/index.html`](dist/upsell/index.html) — linha 27
+Execute `npm test` para simular o checkout e os webhooks localmente. Veja o [impacto no painel e no banco e a configuração de homologação](revisao/INTEGRACAO.md).
 
 ---
 
